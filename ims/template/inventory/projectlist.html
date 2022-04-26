@@ -1,0 +1,145 @@
+
+<title>Project List</title>
+<!--<div id="container" style="width:30%;position:absolute;left:1050px;top:90px">-->
+<!--<h3 style="position:relative;left:170px;">Devices per project</h3>-->
+<!--    <canvas id="pie-chart"></canvas>-->
+<!--    <br><br>-->
+<!--  </div>-->
+
+<!--  <div id="container" style="width: 28%;position:absolute;left:1000px;top:470px"">-->
+<!--<h3 style="position:;left:170px;">Project Status</h3>-->
+<!--    <canvas id="pie-chart1"></canvas>-->
+<!--  </div>-->
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <script>
+
+    var config = {
+      type: 'pie',
+      data: {
+        datasets: [{
+          data: {{ data|safe }},
+          backgroundColor: [
+            '#F4D03F','#2EE8E1','#E82E5E', '#D3D3D3'
+          ],
+          label: 'Population'
+        }],
+        labels: {{ labels|safe }}
+      },
+      options: {
+        responsive: true
+      }
+    };
+    var config1 = {
+      type: 'pie',
+      data: {
+        datasets: [{
+          data: {{ c|safe }},
+          backgroundColor: [
+            '#5DADE2', '#2ECC71', '#FFFF00'
+          ],
+          label: 'Population'
+        }],
+        labels: {{ s|safe }}
+      },
+      options: {
+        responsive: true
+      }
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById('pie-chart').getContext('2d');
+      var ctx1 = document.getElementById('pie-chart1').getContext('2d');
+      window.myPie = new Chart(ctx, config);
+      window.myPie = new Chart(ctx1, config1);
+    };
+
+  </script>
+<!--for project search form-->
+<div id="container" style="position: absolute;left:280px;top:70px;width:80%">
+
+    <div class="row" style="width:100%;">
+
+        <div class="col-sm-5">
+        <div class="card" style="margin-top:30px;">
+    <div class="card-header bg-dark text-white"><h3>Search Project </h3></div>
+<br><br>
+    <div class="card-body">
+  <form method='post' action="Project_list">
+  {% csrf_token %}
+    <div class="form-group" >
+    
+      <label for="status">Project Status</label>
+      <select class="form-control" name="status" id="status">
+          <option value="All">All</option>
+          <option value="Active">Active</option>
+          <option value="Suspended">Suspensed</option>
+          <option value="Completed">Completed</option>
+      </select>
+      <br>
+    </div>
+    <button type="submit" class="btn btn-success">Submit</button><br>
+</form>
+    </div>
+</div></div>
+<!--        <div class="col-sm-">-->
+<!--            <div id="container"  >-->
+<!--<h3 style="">Devices per project</h3>-->
+    <canvas style="display:None;" id="pie-chart"></canvas>
+<!--  </div>-->
+
+        <div class="col-sm-5" style="margin-top:30px;width:%;">
+            <div class="card">
+                <div class="card-header bg-dark text-white"><h3>Project Status</h3></div>
+    <canvas id="pie-chart1"></canvas>
+        </div>
+
+    </div><br>
+        <br>
+{% if objs %}
+
+<div class="col-sm-10" style="margin-right:20px; margin-top:20px;">
+<div class="card">
+    <div class="card-header bg-dark text-white"><h3>Search Result {{ title }}</h3></div>
+    <div class="card-body">
+    <table class="table table-bordered">
+    <thead >
+    <tr>
+      <th scope="col">S.No</th>
+      <th scope="col">Project Id</th>
+      <th scope="col">Project Name</th>
+      <th scope="col">Subsidiary</th>
+      <th scope="col">Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for obj in objs %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ obj.project_id }}</a></td>
+            <td>{{ obj.name }}</a></td>
+            <td>{{ obj.subsidiary }}</td>
+            <td><a class="btn btn-sm btn-info "  href="{% url 'Proj_info' obj.id %}"> Details</a></td>
+        </tr>
+    {% endfor %}
+</div>
+
+  </div>
+
+
+        </div>
+
+    </div>
+
+{% endif %}
+{% if messages %}
+    {% for message in messages %}
+      <div style="margin-top:20px;"
+           class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %}"  role="alert">
+      {{message}}
+      </div>
+    {% endfor %}
+{% endif %}
+
+

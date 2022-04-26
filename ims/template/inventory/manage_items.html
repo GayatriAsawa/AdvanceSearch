@@ -1,0 +1,504 @@
+<title> Search Items</title>
+
+
+
+<div class="row" style="position:absolute; top:100px; left:250px;">
+  <div class="col-10" >
+    <div class="container" style="width:100%">
+      <h4 class="card-header bg-dark text-white" style="margin-bottom: 10%;"> {{ heading }}</h4>
+        <table id="tabular_view" class="card-table table-bordered">
+          <thead>
+          <tr>
+            <th class="col" scope="col">S.No</th>
+            <th scope="col">iepl ID</th>
+            <th scope="col">Service Tag</th>
+            <th scope="col">Item Type</th>
+            <th scope="col">Project</th>
+            <th scope="col">Manufacturer</th>
+            <th scope="col">Model No.</th>
+            <th scope="col">Employee</th>
+            <th scope="col">Details</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for item in items_list %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.iepl_id }}</td>
+            <td>{{ item.service_tag }}</td>
+            <td>{{ item.item_type.title }}</td>
+            <td>{{ item.project.name }}</td>
+            <td>{{ item.manufacturer }}</td>
+            <td>{{ item.model_no }}</td>
+            <td>{{ item.employee.username }}</td>
+            <td>
+              {% for group in user.groups.all %}
+              {% if group.name == 'Superuser'  %}
+              {% if show_form %}
+              {% if not hide_edit %}
+              <!-- 'editItemsModal("{{ item.id }}" ,
+                           "{{ item.iepl_id }}", "{{ item.service_tag }}", "{{item.location.id}}", "{{item.desk_no}}",
+                            "{{item.item_type.id}}", "{{item.model_no}}", "{{item.manufacturer.id}}", "{{item.rent}}",
+                             "{{item.allocation_status}}", "{{item.employee.id}}", "{{item.po_number}}",
+                             "{{item.project.id}}")' -->
+              <p><a class="btn btn-primary btn-sm" type="button" href="{% url 'edit_item' item.id %}" style="margin-bottom:px;">Edit
+                <span class="fa fa-pencil-square-o fa-lg fa-fw"></span></a>
+              {% endif %}
+              {% if request.path == '/search_devices' %} {{ request.post }}
+              <a style="display:none;" class="btn btn-sm btn-danger" style="margin-top:5px;"
+                 href="{% url 'delete_device' item.id %}"  >Delete</a>
+              {% else %}
+              <a  class="btn btn-sm btn-danger" style="margin-top:5px;"
+                 href="{% url 'delete_device' item.id %}" onclick="return confirm('Are you sure, you want to delete the item?')">Delete
+                <span class="fa fa-trash fa-lg fa-fw" ></span></a>
+              {% endif %}
+              {% endif %}
+              {% endif %}
+              {% endfor %}
+              <a class="btn btn-sm btn-info" style="margin-top:5px;"
+                 href="{% url 'device_details' item.id %}">Details<span class="fa fa-info-circle fa-lg fa-fw "></span></a></p>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
+
+{% if show_form %}
+<div class="modal " tabindex="-1" role="dialog" id="editItemsModal">
+  <div class="modal-dialog" role="document">
+    <form class="needs-validation2"  action="{% url 'edit_device' %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" id="device_id" name="device_id">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Item : <span id="title-head"></span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% if form_error %}
+        {% if messages %}          
+          {% for message in messages %}
+            <div style="margin-top:20px" class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %}"
+            role="alert">
+              {{message}}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endif %}
+      <div class="dropdown">
+        <tr><div class="form-group">
+            <th><label for="item_name">Item Name <span style = "color: red">* </span>:</label></th>
+            <td>{{device_form.item_name}}</td>
+        </div></tr>
+
+    <div class="dropdown">
+        <tr><div class="form-group">
+            <th><label for="description">Description :</label></th>
+            <td>{{device_form.description}}</td>
+        </div></tr>
+
+        <p>PO Number<span style = "color: red">* </span> :</p>
+        <div class="row">
+            <div class="dropdown col-xs-6" style="width : 30%">
+                <tr><div class="form-group" style="margin-left : 1.25rem">
+                    <th><label for="year">Year<span style = "color: red">* </span> :</label></th>
+                    <td>{{device_form.po_year}}</td>
+                </div></tr>
+            </div>
+            <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+                <tr><div class="form-group">
+                    <th><label for="Inititials">Initials<span style = "color: red">* </span> :</label></th>
+                    <td>{{device_form.po_initials}}</td>
+                </div></tr>
+            </div>
+            <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+                <tr><div class="form-group">
+                    <th><label for="Serial Number">Serial Number<span style = "color: red">* </span> :</label></th>
+                    <td>{{device_form.po_srno}}</td>
+                </div></tr>
+            </div>
+        </div>
+
+    <div class="dropdown">
+        <tr><div class="form-group">
+            <th><label for="project">Project <span style = "color: red">* </span>:</label></th>
+            <td>{{device_form.project}}</td>
+        </div></tr>
+
+    <div class="dropdown">
+        <tr><div class="form-group">
+            <th><label for="allocation_status">Allocation Status <span style = "color: red">* </span>:</label></th>
+            <td>{{device_form.allocation_status}}</td>
+        </div></tr>
+    
+        <p>Location <span style = "color: red">* </span> :</p>
+        <div class="row">
+            <div class="dropdown col-xs-6" style="width : 30%">
+                <tr><div class="form-group" style="margin-left : 1.25rem">
+                    <th><label for="year">Floor Number <span style = "color: red">* </span> :</label></th>
+                    <td>{{device_form.floor_number}}</td>
+                </div></tr>
+            </div>
+            <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+                <tr><div class="form-group">
+                    <th><label for="Inititials">Location Type <span style = "color: red">* </span> :</label></th>
+                    <td>{{device_form.loc_type}}</td>
+                </div></tr>
+            </div>
+            <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+                <tr><div class="form-group">
+                    <th><label for="Serial Number">Number<span style = "color: red">* </span> :</label></th>
+                    <td>{{device_form.loc_number}}</td>
+                </div></tr>
+            </div>
+        </div>
+    
+        <div class="dropdown">
+        <tr><div class="form-group">
+            <th><label for="employee">User Name <span style = "color: red">* </span>:</label></th>
+            <td>{{device_form.employee}}</td>
+        </div></tr>
+
+    <div class="form-group">
+        <label for="Manufacturer">Manufacturer Name <span style = "color: red">* </span>:</label>
+        {{device_form.manufacturer}}
+    </div>
+
+    <div class="form-group">
+        <label for="manufacturer_part_no">Manufacturer Part NO. <span style = "color: red">* </span>:</label>
+        {{device_form.manufacturer_part_no}}
+    </div>
+    
+    <div class="form-group">
+        <label for="comment">Comment:</label>
+        {{device_form.comment}}
+    </div>
+    
+    <p>GIN and IQAR NO.<span style = "color: red">* </span> :</p>
+      <div class="row">
+      <div class="dropdown col-xs-6" style="width : 30%">
+      <tr><div class="form-group" style="margin-left : 1.25rem">
+          <th><label for="year">Year<span style = "color: red">* </span> :</label></th>
+          <td>{{device_form.gin_year}}</td>
+      </div></tr>
+      </div>
+      <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+      <tr><div class="form-group">
+          <th><label for="Inititials">Initials<span style = "color: red">* </span> :</label></th>
+          <td>{{device_form.gin_initials}}</td>
+      </div></tr>
+      </div>
+      <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+      <tr><div class="form-group">
+          <th><label for="Serial Number">Serial Number<span style = "color: red">* </span> :</label></th>
+          <td>{{device_form.gin_srno}}</td>
+      </div></tr>
+      </div>
+      </div>
+          
+          <div class="form-group">
+              <label for="to_be_reimbursed">To be Reimbursed <span style = "color: red">* </span>:</label>
+              {{device_form.to_be_reimbursed}}
+          </div> 
+          <!-- FOR HARDWARE -->
+          {% if device_form.customer_property %} 
+
+          <div class="dropdown">
+            <tr><div class="form-group">
+                <th><label for="customer_property">Customer Property <span style = "color: red">* </span>:</label></th>
+                <td>{{device_form.customer_property}}</td>
+            </div></tr>
+        </div>
+
+        <div class="dropdown">
+            <tr><div class="form-group">
+                <th><label for="subsidiary">Subsidiary <span style = "color: red">* </span>:</label></th>
+                <td>{{device_form.subsidiary}}</td>
+            </div></tr>
+        </div>
+
+         <!-- END hardware -->
+
+         <!-- FOR IT -->
+              {% elif device_form.rent != None %}
+              <div class="dropdown">
+                <tr><div class="form-group">
+                    <th><label for="service_tag">Service Tag <span style = "color: red">* </span>:</label></th>
+                    <td>{{device_form.service_tag}}</td>
+                </div></tr>
+
+            <div class="dropdown">
+                <label for="device">Device Type <span style = "color: red">* </span>:</label>
+                {{device_form.item_type}}
+            </div><br>
+            
+            <div class="dropdown">
+                <label for="host_name">Host Name <span style = "color: red">* </span>:</label>
+                {{device_form.host_name}}
+            </div><br>
+            
+            <div class="dropdown">
+                <label for="local_admin">Local Admin :</label>
+                {{device_form.local_admin}}
+            </div><br>
+            
+            <div class="dropdown">
+                <tr><div class="form-group">
+                    <th><label for="Rent">Rent <span style = "color: red">* </span>:</label></th>
+                    <td>{{device_form.rent}}</td>
+                </div></tr>
+            <div class="dropdown">
+                <tr><div class="form-group">
+                    <th><label for="cpu_type">CPU Type <span style = "color: red">* </span>:</label></th>
+                    <td>{{device_form.cpu_type}}</td>
+                </div></tr>
+            <div class="dropdown">
+                <tr><div class="form-group">
+                    <th><label for="cpu_speed">CPU Speed :</label></th>
+                    <td>{{device_form.cpu_speed}}</td>
+                </div></tr>
+            
+                <div class="dropdown">
+                <tr><div class="form-group">
+                    <th><label for="display_output">Display Output <span style = "color: red">* </span>:</label></th><br>
+                    <select required name = "multiple_select_disp" class="select_field_class" multiple="multiple" name="option" id="option" style="width: 100%" value = {{mulSelectDisp}}>
+                        <option value="">Enter the option</option>
+                        <option value="1-HDMI">1-HDMI</option>
+                        <option value="2-HDMI">2-HDMI</option>
+                        <option value="3-HDMI">3-HDMI</option>
+                        <option value="1-VGA">1-VGA</option>
+                        <option value="2-VGA">2-VGA</option>
+                        <option value="3-VGA">3-VGA</option>
+                        <option value="4-VGA">4-VGA</option>
+                        <option value="1-Display Port">1-Display Port</option>
+                        <option value="2-Display Port">2-Display Port</option>
+                        <option value="3-Display Port">3-Display Port</option>
+                        <option value="4-Display Port">4-Display Port</option>
+
+                  </select>
+                </div></tr>
+                <p>Monitor Make<span style = "color: red">* </span> :</p>
+                <div class="row">
+                    <div class="dropdown col-xs-5">
+                        <tr><div class="form-group" style="margin-left : 1.5rem">
+                            <th><label for="year">Manufacturer<span style = "color: red">* </span> :</label></th>
+                            <td>{{device_form.monitor_manufacturer}}</td>
+                        </div></tr>
+                    </div>
+
+                    <div class="dropdown col-xs-7" style="margin-left : 0.5rem">
+                          <th><label for="year">Port<span style = "color: red">* </span> :</label></th><br>
+                          <select required name = "multiple_select" class="select_field_class" multiple="multiple" name="option" id="option" style="width: 280px;">
+                            <option value="">Enter the option</option>
+                            <option value="1-HDMI">1-HDMI</option>
+                            <option value="2-HDMI">2-HDMI</option>
+                            <option value="3-HDMI">3-HDMI</option>
+                            <option value="1-VGA">1-VGA</option>
+                            <option value="2-VGA">2-VGA</option>
+                            <option value="3-VGA">3-VGA</option>
+                            <option value="4-VGA">4-VGA</option>
+                            <option value="1-Display Port">1-Display Port</option>
+                            <option value="2-Display Port">2-Display Port</option>
+                            <option value="3-Display Port">3-Display Port</option>
+                            <option value="4-Display Port">4-Display Port</option>
+
+                      </select>
+                    </div>
+                </div>
+                <div class="dropdown">
+                <tr><div class="form-group">
+                    <th><label for="monitor_size">Monitor Size :</label></th>
+                    <td>{{device_form.monitor_size}}</td>
+                </div></tr>
+                <div class="dropdown">
+                <tr><div class="form-group">
+                    <th><label for="ram">RAM <span style = "color: red">* </span>:</label></th>
+                    <td>{{device_form.ram}}</td>
+                </div></tr>
+
+                
+                <div style="display: flex;">
+                    <p>Storage<span style = "color: red">* </span> :</p>
+                    <div class="text-right">
+                    <button style="margin-left: 2rem;" class="text-right btn btn-primary btn-sm" type="button" onclick="add()">Add</button>
+                    <button style="margin-left: 1rem;" class="text-right btn btn-primary btn-sm" type="button" onclick="remove()">Remove</button>
+                    <input type="hidden" name ="total_chq"  value="1" id="total_chq">
+                </div>
+                </div>
+            <div class="row">
+                <div class="dropdown col-xs-6" style="width : 30%">
+                    <tr><div class="form-group" style="margin-left : 1.25rem;">
+                        <th><label for="year">Storage Type<span style = "color: red">* </span> :</label></th>
+                        <td>
+                            <select style="margin-bottom: 1rem;" name='newtype_0' class="form-control" aria-label="Type">
+                                <option selected>Storage Type</option>
+                                <option value="H">Hard Disk Drive</option>
+                                <option value="S">Solid State Drive</option>
+                            </select>                            
+                        </td>
+                        <div id="new_chq1"></div>
+                    </div></tr>
+                </div>
+                <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+                    <tr><div class="form-group">
+                        <th><label for="memory">Memory<span style = "color: red">* </span> :</label></th>
+                        <td>
+                            <select style="margin-bottom: 1rem;" name='newmem_0' class="form-control" aria-label="Memory">
+                                <option selected>Memory</option>
+                                <option value="128">128</option>
+                                <option value="256">256</option>
+                                <option value="512">512</option>
+                                <option value="1024">1024</option>
+                            </select>
+                        </td>
+                        <div id="new_chq2"></div>
+                    </div></tr>
+                </div>
+            </div>
+                <div class="dropdown">
+                <tr><div class="form-group">
+                    <th><label for="os">OS <span style = "color: red">* </span>:</label></th>
+                    <td>{{device_form.os}}</td>
+                </div></tr>
+                <div class="dropdown">
+                <tr><div class="form-group">
+                    <th><label for="warranty_expiry_date">Warranty expiry date <span style = "color: red">* </span>:</label></th>
+                    <td>{{device_form.warranty_expiry_date}}</td>
+                </div></tr>
+      {%else%}
+      {%endif%}     
+          
+          
+
+
+        <!-- <div class="form-group">
+          <label for="service_tag">Service Tag</label>
+          {{device_form.service_tag}}
+        </div>
+        <div class="form-group">
+          <label for="floor">Floor</label>
+          {{device_form.location}}
+        </div>
+        <div class="form-group">
+          <label for="desk">Desk No.</label>
+          {{device_form.desk_no}}
+        </div>
+        <div class="form-group">
+          <label for="device">Device Type</label>
+          {{device_form.item_type}}
+        </div>
+        <div class="form-group">
+          <label for="model">Model No.</label>
+          {{device_form.model_no}}
+        </div>
+        <div class="form-group">
+          <label for="Manufacturer">Manufacturer</label>
+          {{device_form.manufacturer}}
+        </div>
+        <div class="form-group">
+          <label for="Rent">Rent</label>
+          {{device_form.rent}}
+        </div>
+        <div class="form-group">
+          <label for="Rent">Allocation Status</label>
+          {{device_form.allocation_status}}
+        </div>
+        <div class="form-group">
+          <label for="Rent">Employee</label>
+          {{device_form.employee}}
+        </div>
+        <div class="form-group">
+          <label for="Rent">PO Number</label>
+          {{device_form.po_number}}
+        </div>
+        <div class="form-group">
+          <label for="Rent">Project</label>
+          {{device_form.project}}
+        </div> -->
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+  </div></div>
+
+{% endif %}
+<!-- <script type="text/javascript">
+// /*
+//     function clicked() {
+//        if (confirm('Confirm to delete this item?')) {
+
+//            //location.href='{{request.get_host}}{% url 'disallow' %}'
+//        } else {
+//            return false;
+//        }
+//     }
+
+// */
+</script> -->
+
+
+<script>
+ 
+
+$(document).ready(function(){});
+
+
+function editItemsModal(id, iepl_id, service_tag, location, desk_no, item_type, model_no, manufacturer, rent,
+allocation_status, employee, po_number, project){
+  // alert(id);
+  $("#title-head").text(iepl_id);
+  $("#device_id").val(id);
+  $("#id_service_tag").val(service_tag);
+  $("#id_location").val(location);
+  $("#id_desk_no").val(desk_no);
+  $("#id_item_type").val(item_type);
+  $("#id_model_no").val(model_no);
+  $("#id_manufacturer").val(manufacturer);
+  $("#id_allocation_status").val(allocation_status);
+  $("#id_employee").val(employee);
+  $("#id_PO_number").val(po_number);
+  $("#id_project").val(project);
+  $("#id_rent").val(rent);
+  $("#editItemsModal").modal('show');
+}
+
+
+</script>
+
+{% if form_error %}
+
+<script> $("#editItemsModal").modal('show'); </script>
+
+{% endif %}
+
+
+<!-- <script>
+  //TO VAlIDATE
+  (function () {
+      'use strict';
+      window.addEventListener('load', function () {
+          var forms = document.getElementsByClassName('needs-validation2');
+          var validation = Array.prototype.filter.call(forms, function (form) {
+              form.addEventListener('submit', async function (event) {
+                alert("BHAR")
+                  if (form.checkValidity() === false) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                  }
+                  form.classList.add('was-validated');
+              }, false);
+          });
+      }, false);
+  })();
+</script> -->

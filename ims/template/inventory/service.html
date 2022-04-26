@@ -1,0 +1,122 @@
+
+<title>Services</title>
+
+<div id="container" style="position: absolute;left:280px;top:90px;width:80%">
+
+    <div class="row">
+     <div class="col-sm-6">
+         {% if lis|length > 0 %}
+        <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h3 style=";">All Assigned Items</h3>
+        </div>
+        <div class="card-body">
+
+
+<form method="post" style="margin-top:10px;" action="">
+    {%csrf_token%}
+    {%for li in lis%}
+<div style="">
+       <p>
+        <strong><a class="list-group-item list-group-item-action" >
+            <input type="checkbox" name="allocation_id" value="{{li.id}}">
+            Model No. - {{li.service_tag.model_no}}, Service Tag  - {{li.service_tag.service_tag}} </a></strong></div></p>
+
+<!--    <strong><input type="checkbox" name="{{ li }}" value="{{ li.id }}"></strong>-->
+    {%endfor%}
+    <button type="submit" class="btn btn-secondary" formaction="incorrect1" onclick="clicked();">Incorrect Item</button>
+
+<button type="submit" class="btn btn-secondary" formaction="Return_to_store1" onclick="clicked1()">Return to store</button>
+
+<button type="submit" class="btn btn-secondary" formaction="Free_Item1" onclick="clicked2();">Free Item</button><br>
+
+
+
+
+</form>
+        </div>
+    </div>
+         {% else %}
+
+         <div class="alert alert-info"  ><p><b>No Assigned Items for you !!</b></p> </div>
+         {% endif %}
+    </div>
+
+<div class="col-sm-6">
+    <div class="card" >
+        <div class="card-header bg-dark text-white"><h2>Pending Requests</h2></div><br><br>
+        <div class="card-body">
+<form style="margin-top:px;">
+        <INPUT STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; font-size: 12px; background-color: RED;" size="1" disabled>
+        <label for="head">Incorrect Item</label>
+        <INPUT type="text"  STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; font-size: 12px; background-color: BLUE;" size="1" disabled>
+        <label for="head">Return To Store</label>
+        <INPUT type="text"  STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; font-size: 12px; background-color: GREEN;" size="1" disabled>
+        <label for="head">Free Items</label>
+                <INPUT type="text"  STYLE="color: #FFFFFF; font-family: Verdana; font-weight: bold; font-size: 12px; background-color: ORANGE;" size="1" disabled>
+        <label for="head">Transfer</label>
+    </form>
+            {%for li in req%}
+                {%if li.report_action == 'Incorrect' %}
+                <strong><a class="list-group-item list-group-item-action" style="color: red;" >{{ forloop.counter }}.
+                    Model No.- {{li.allocation.service_tag.model_no}}, Service Tag - {{li.allocation.service_tag}}</a>
+                </strong>
+
+                {%elif li.report_action == 'Return_store' %}
+                <strong><a class="list-group-item list-group-item-action" style="color: navy;" >{{ forloop.counter }}.
+                    Model No.- {{li.allocation.service_tag.model_no}}, Service Tag - {{li.allocation.service_tag}}</a>
+                </strong>
+                {%elif li.report_action == 'Free_item' %}
+                <strong><a class="list-group-item list-group-item-action" style="color: limegreen;" >{{ forloop.counter }}.
+                    Model No. - {{li.allocation.service_tag.model_no}}, Service Tag - {{li.allocation.service_tag}}</a>
+                </strong>
+                 {%elif li.report_action == 'Transfer' %}
+                <strong><a class="list-group-item list-group-item-action" style="color: orange;" >{{ forloop.counter }}.
+                    Model No. - {{li.allocation.service_tag.model_no}}, Service Tag - {{li.allocation.service_tag}}</a>
+                </strong>
+                {%endif%}
+            {%endfor%}
+        </div>
+</div>
+    </div>
+
+</div>
+</div>
+
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %}"  role="alert">
+      {{message}}
+      </div>
+    {% endfor %}
+{% endif %}
+
+<script type="text/javascript">
+
+    function clicked() {
+       if (confirm('Do you want to Report Incorrect Items')) {
+           
+           location.href='{% url 'incorrect1'%}'
+       } else {
+           return false;
+       }
+    }
+    function clicked1() {
+       if (confirm('Do you want to return to store?')) {
+           location.href='{% url 'Return_to_store1'%}'
+       } else {
+           return false;
+       }
+    }
+    function clicked2() {
+       if (confirm('Do you want to free item?')) {
+           location.href='{% url 'Free_Item1'%}'
+       } else {
+           return false;
+       }
+    }
+
+</script>
+</div>

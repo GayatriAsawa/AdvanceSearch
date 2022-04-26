@@ -1,0 +1,127 @@
+
+<!-- <title>Information-{{allocation_items.allocation.service_tag}}</title> -->
+<title>Information - {{itemName}}</title>
+
+{% if messages %}
+{% for message in messages %}
+  <div style="margin-left:50px;"  class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %}"  role="alert">
+  {{message}}
+  </div>
+{% endfor %}
+      {% endif %}
+
+{% if messages %}
+{% for message in messages %}
+<div style="margin-left:50px;"  class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %}"  role="alert">
+    {{message}}
+</div>
+{% endfor %}
+{% endif %}
+
+<div id="container" style="position: absolute;left:250px;top:70px;width:80%">
+
+<div class="row"style="margin-top:20px;">
+    <div class="col-sm-1" align="left">
+        <a class="btn btn-info" href="{% url 'dashboard' %}" style="padding:5px;"><span class="fa fa-arrow-circle-left fa-sm aria-hidden='true'"></span> Back</a>
+    </div>
+<div class="col-sm-10">
+<div class="card">
+    <div class="card-header bg-dark text-white">
+        <p>
+        <!-- <h4>Information - {{allocation_items.allocation.service_tag.model_no}}</h4> -->
+        <h4>Information - {{itemName}}</h4>
+        </p></div>
+  <div class="card-body">
+      <h5>Details -</h5>
+    <table class="table table-stripped"  width="0%">
+            <tbody>
+                <tr>
+                    <th style="margin-right:1px;"><h4>Item name  :</h4></th>
+                    <td><h4>{{itemName}}</h4></td>
+                </tr>
+                <tr>
+                    <th style="margin-right:1px;"><h4>iepl Id  :</h4></th>
+                    <td><h4>{{allocation_items.allocation.service_tag.iepl_id}}</h4></td>
+                </tr>
+                <tr>
+                    <th style="margin-right:1px;"><h4>Item Category  :</h4></th>
+                    <td><h4>{{itemDomain}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Item Description  :</h4></th>
+                    <td><h4>{{allocation_items.allocation.service_tag.description}}</h4></td>
+                </tr>
+                {% if itemDomain == "IT" %}
+                <tr>
+                    <th><h4>Service Tag :</h4></th>
+                    <td><h4>{{allocation_items.allocation.service_tag.service_tag}}</h4></td>
+                </tr>
+                <tr>
+                   <th><h4>Item Type :</h4></th>
+                   <td><h4>{{allocation_items.allocation.service_tag.item_type}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Host name :</h4></th>
+                   <td><h4>{{allocation_items.allocation.service_tag.host_name}}</h4></td>
+               </tr>
+               {% endif %}
+                <tr>
+                   <th><h4>Location :</h4></th>
+                   <td><h4>{{allocation_items.allocation.service_tag.location}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Manufacturer :</h4></th>
+                   <td><h4>{{allocation_items.allocation.service_tag.manufacturer}}</h4></td>
+               </tr>
+                <!-- <tr>
+                   <th><h4>Model No. :</h4></th>
+                   <td><h4>{{allocation_items.allocation.service_tag.model_no}}</h4></td>
+               </tr> -->
+                <tr>
+                    <th><h4>Currently Allocated To : </h4></th>
+                    <td><h4>{{allocation_items.created_by.username}}</h4></td>
+                </tr>
+               {% if allocation_items.report_action == "transfer" %}
+                <tr>
+                    <th><h4>Transfer To : </h4></th>
+                    <td><h4>{{allocation_items.employee.user}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Recipient Details : </h4></th>
+                    <td><h4>{{allocation_items.employee.bio}}</h4></td>
+                </tr>
+               {% endif %}
+                <tr>
+                   <th><h4>Request Type :</h4></th>
+                   <td><h4>{{msg}}</h4></td>
+               </tr>
+            </tbody>
+        </table>
+<button type="button" class="btn btn-lg btn-secondary"  onclick="clicked();">Accept</button>
+
+<button type="button" class="btn btn-lg  btn-secondary" onclick="clicked1();">Reject</button>
+  </div>
+
+   </div>
+</div>
+
+
+<script type="text/javascript">
+    function clicked() {
+       if (confirm('Sure to Accept Request ? ')) {
+           location.href='{% url 'accept' allocation_items.id %}'
+       } else {
+           return false;
+       }
+    }
+    function clicked1() {
+       if (confirm('Sure to Reject Request ? ')) {
+           location.href='{% url 'reject' allocation_items.id %}'
+       } else {
+           return false;
+       }
+    }
+</script>
+
+
+

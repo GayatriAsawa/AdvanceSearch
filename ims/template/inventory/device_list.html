@@ -1,0 +1,49 @@
+{% if 'Superuser' in user_groups %}
+    {% include 'inventory/admin_dashboard.html' %}
+{% else %}
+    {% include 'inventory/user_dashboard.html' %}
+{% endif %}
+<!--Do not use for loop for user group check, as it will consider the only last iteration for condition check.-->
+
+<div class="row">
+<div class="col-md-10" style="position: relative;left:250px;margin-top:50px;width:80%">
+<div class="card" style="margin-top:10px;, margin-right:20px;">
+    <div class="card-header bg-dark text-white">
+        <h4>Transaction History</h4>
+    </div> <br>
+    <div class="card-body overflow-auto">
+    <table id="tabular_view" style=" max-width: none;overflow: hidden ;table-layout: auto;" class="table table-bordered">
+    <thead>
+    <tr>
+      <th scope="col">S.No</th>
+      <th scope="col">iepl ID</th>
+      <th scope="col">Service Tag</th>
+      <th scope="col">Item Type</th>
+      <th scope="col">Status</th>
+      <th scope="col">Done By</th>
+      <th scope="col">Details of the Transaction</th>
+      <th scope="col" style=".absorbing-column {
+    width: 100%;
+}">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in transactions %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.device.iepl_id }}</td>
+            <td>{{ item.device.service_tag }}</td>
+            <td>{{ item.device.item_type.title }}</td>
+            <td>{{ item.get_status_display }}</td>
+            <td>{{ item.user }}</td>
+            <td>{{ item.details |linebreaks }}</td>
+            <td>{{ item.action_time }}</td>
+        </tr>
+  {% endfor %}
+  </tbody>
+
+    </table>
+</div>
+</div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="63"
+   height="63"
+   viewBox="0 0 63 63"
+   version="1.1"
+   id="svg18"
+   sodipodi:docname="logo-ifm-reverse.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata24">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Logo</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs22" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     id="namedview20"
+     showgrid="false"
+     inkscape:zoom="3.7460317"
+     inkscape:cx="31.5"
+     inkscape:cy="31.5"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g16" />
+  <title
+     id="title2">Logo</title>
+  <g
+     fill="none"
+     fill-rule="evenodd"
+     id="g16">
+    <path
+       d="M.522 31.18C.522 14.058 14.404.178 31.527.178 48.65.177 62.53 14.057 62.53 31.18c0 17.123-13.88 31.004-31.004 31.004C14.404 62.184.523 48.304.523 31.18"
+       fill="#FF6E00"
+       id="path4"
+       style="fill:#fefefe;fill-opacity:1" />
+    <path
+       d="M.522 31.18C.522 14.058 14.404.178 31.527.178 48.65.177 62.53 14.057 62.53 31.18c0 17.123-13.88 31.004-31.004 31.004C14.404 62.184.523 48.304.523 31.18z"
+       stroke="#FF6E00"
+       stroke-width=".354"
+       id="path6" />
+    <path
+       d="M19.47 7.61c-2.604 0-4.72 2.117-4.72 4.72v1.406c-.866-.578-1.91-.907-3.03-.907-3.014 0-5.44 2.453-5.44 5.468 0 3.013 2.426 5.438 5.44 5.438 3.012 0 5.468-2.425 5.467-5.438 0-.77-.148-1.522-.437-2.187v-3.78c0-1.507 1.213-2.72 2.72-2.72h11.374v3.97H24.53c-.957 0-1.75.76-1.75 1.718v5.97c0 .96.793 1.718 1.75 1.718h6.314v2.75H24.53c-.905 0-1.64.678-1.718 1.562-.003.05-.03.104-.03.156V45.33H16.75V27.453c0-.052.005-.103 0-.156-.08-.885-.843-1.562-1.75-1.562H6.72v21.562h2V27.704h5.53c.275 0 .5.227.5.5V45.33h-4.313v1.968h22.376V33.704c0-.163.147-.28.312-.28h1.125c.164 0 .313.117.313.28v13.594h10V33.704c0-.163.147-.28.312-.28H46c.165 0 .312.117.313.28v13.594h10.03V27.454c0-.052-.026-.103-.03-.156-.08-.885-.813-1.562-1.72-1.562h-20.03v1.968h19.28c.274 0 .5.227.5.5V45.33h-6.062V33.172c0-.96-.76-1.75-1.718-1.75h-2.25c-.958 0-1.718.79-1.718 1.75V45.33H36.53V33.172c0-.96-.76-1.75-1.718-1.75h-2.25c-.958 0-1.718.79-1.718 1.75V45.33H24.78V28.203c0-.273.227-.5.5-.5h7.532v-6.686h-7.718c-.165 0-.313-.15-.313-.314V15.86c0-.164.15-.312.314-.312h7.718V7.61H19.47zM11.72 14.8c1.917 0 3.5 1.58 3.5 3.5 0 1.918-1.582 3.47-3.5 3.47-1.92 0-3.47-1.552-3.47-3.47 0-1.92 1.55-3.5 3.47-3.5z"
+       fill="#FFF"
+       id="path8"
+       style="fill:#e97a00;fill-opacity:1" />
+  </g>
+</svg>

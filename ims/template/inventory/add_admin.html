@@ -1,0 +1,271 @@
+{% load static %}
+<title>Add New Administration Device</title>
+<div class="container" align="left" style="position: absolute;left:200px;margin-top:0px;width:50%">
+    <div class="row">
+
+        <div class="col-md-10" style="position: relative;left:250px;margin-top:80px;width:50%">
+            <div class="card" style="margin-top:10px; margin-right:20px;">
+                <div class="card-header bg-dark text-white">
+                    <h4>Add New Administration Device {{ adminform.iepl_id }} </h4>
+                </div><br>
+                <div class="card-body">
+                    <div class="col-md-12">
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div style="margin-top:20px"
+                            class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %}"
+                            role="alert">
+                            {% if message.tags == 'error' %}
+                                {% for i,j in err %}
+                                {{ i }} {{j}}
+                                {% endfor %} 
+                            {% else %}
+                                {{ message }}
+                            {% endif %}
+                        </div>
+                        {% endfor %} 
+                        {% endif %}
+                    </div>
+                    {% if validError != 'error' and validError != 'First' %}
+                    <!-- <table class="table table-stripped" width="0%">
+                        <tbody>
+                            <tr>
+                                <th style="margin-right:1px;">
+                                    <h4>po_number. :</h4>
+                                </th>
+                                <td>
+                                    <h4>{{adminform.po_number}}</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="margin-right:1px;">
+                                    <h4>allocation_status :</h4>
+                                </th>
+                                <td>
+                                    <h4>{{adminform.allocation_status}}</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="margin-right:1px;">
+                                    <h4>Model No. :</h4>
+                                </th>
+                                <td>
+                                    <h4>{{adminform.model_no}}</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="margin-right:1px;">
+                                    <h4>Manufacturer :</h4>
+                                </th>
+                                <td>
+                                    <h4>{{adminform.manufacturer}}</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="margin-right:1px;">
+                                    <h4>location :</h4>
+                                </th>
+                                <td>
+                                    <h4>{{adminform.location}}</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="margin-right:1px;">
+                                    <h4>employee :</h4>
+                                </th>
+                                <td>
+                                    <h4>{{adminform.employee}}</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="margin-right:1px;">
+                                    <h4>comment :</h4>
+                                </th>
+                                <td>
+                                    <h4>{{adminform.comment}}</h4>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table> -->
+
+                    {% else %}
+                    <form  class="needs-validation2"  action="{% url 'add_device' 3  %}" method='post' novalidate>
+                        {% csrf_token %}
+                        <div style="margin-top:5 px; display: none;" id="danger_msg2" class="alert alert-danger" role="alert">
+                        </div>
+                        <div class="dropdown">
+                            <tr><div class="form-group">
+                                <th><label for="item_name">Item Name <span style = "color: red">* </span>:</label></th>
+                                <td>{{adminform.item_name}}</td>
+                            </div></tr>
+            
+                        <div class="dropdown">
+                            <tr><div class="form-group">
+                                <th><label for="description">Description :</label></th>
+                                <td>{{adminform.description}}</td>
+                            </div></tr>
+
+                            <p>PO Number <span style = "color: red">* </span> :</p>
+                            <div class="row">
+                                <div class="dropdown col-xs-6" style="width : 30%">
+                                    <tr><div class="form-group" style="margin-left : 1.25rem">
+                                        <th><label for="year">Year <span style = "color: red">* </span> :</label></th>
+                                        <td>{{adminform.po_year}}</td>
+                                    </div></tr>
+                                </div>
+                                <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+                                    <tr><div class="form-group">
+                                        <th><label for="Inititials">Initials <span style = "color: red">* </span> :</label></th>
+                                        <td>{{adminform.po_initials}}</td>
+                                    </div></tr>
+                                </div>
+                                <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+                                    <tr><div class="form-group">
+                                        <th><label for="Serial Number">Serial Number <span style = "color: red">* </span> :</label></th>
+                                        <td>{{adminform.po_srno}}</td>
+                                    </div></tr>
+                                </div>
+                            </div>
+                            <div style="display: none;">
+                                <div class="dropdown">
+                                    <tr><div class="form-group">
+                                        <th><label for="project">Project NO. <span style = "color: red">* </span>:</label></th>
+                                        <td>{{device_form.project}}</td>
+                                    </div></tr>
+                                </div>
+                                <div class="dropdown">
+                                    <tr><div class="form-group">
+                                        <th><label for="project">Project Name <span style = "color: red">* </span>:</label></th>
+                                        <td><input class="form-control" disabled type="text" id = 'projectName' value = {{project_name}}></td>
+                                    </div></tr>
+                                </div>
+                            </div>
+                            <div class="dropdown" style="display: none;">
+                                <tr><div class="form-group">
+                                    <th><label for="allocation_status">Allocation Status <span style = "color: red">* </span>:</label></th>
+                                    <td>{{adminform.allocation_status}}</td>
+                                </div></tr>
+                            </div>
+                            <div style="display: none;">
+                                <p>Location <span style = "color: red">* </span> :</p>
+                                <div class="row">
+                                    <div class="dropdown col-xs-6" style="width : 30%">
+                                        <tr><div class="form-group" style="margin-left : 1.25rem">
+                                            <th><label for="year">Floor Number <span style = "color: red">* </span> :</label></th>
+                                            <td>{{adminform.floor_number}}</td>
+                                        </div></tr>
+                                    </div>
+                                    <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+                                        <tr><div class="form-group">
+                                            <th><label for="Inititials">Location Type <span style = "color: red">* </span> :</label></th>
+                                            <td>{{adminform.loc_type}}</td>
+                                        </div></tr>
+                                    </div>
+                                    <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+                                        <tr><div class="form-group">
+                                            <th><label for="Serial Number">Number <span style = "color: red">* </span> :</label></th>
+                                            <td>{{adminform.loc_number}}</td>
+                                        </div></tr>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown" style="display: none;">
+                                <tr><div class="form-group">
+                                    <th><label for="employee">User Name <span style = "color: red">* </span>:</label></th>
+                                    <td>{{adminform.employee}}</td>
+                                </div></tr>
+                            </div>
+                        <div class="form-group">
+                            <label for="Manufacturer">Manufacturer Name <span style = "color: red">* </span>:</label>
+                            {{adminform.manufacturer}}
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="manufacturer_part_no">Manufacturer Part NO. <span style = "color: red">* </span>:</label>
+                            {{adminform.manufacturer_part_no}}
+                        </div>
+                        
+                        <div class="form-group" style="display: none;">
+                            <label for="comment">Comment :</label>
+                            {{adminform.comment}}
+                        </div>
+                        <div style="display: none;">
+                            <p>GIN and IQAR NO. <span style = "color: red">* </span> :</p>
+                            <div class="row">
+                                <div class="dropdown col-xs-6" style="width : 30%">
+                                    <tr><div class="form-group" style="margin-left : 1.25rem">
+                                        <th><label for="year">Year <span style = "color: red">* </span> :</label></th>
+                                        <td>{{adminform.gin_year}}</td>
+                                    </div></tr>
+                                </div>
+                                <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+                                    <tr><div class="form-group">
+                                        <th><label for="Inititials">Initials <span style = "color: red">* </span> :</label></th>
+                                        <td>{{adminform.gin_initials}}</td>
+                                    </div></tr>
+                                </div>
+                                <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+                                    <tr><div class="form-group">
+                                        <th><label for="Serial Number">Serial Number <span style = "color: red">* </span> :</label></th>
+                                        <td>{{adminform.gin_srno}}</td>
+                                    </div></tr>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="to_be_reimbursed">To be Reimbursed <span style = "color: red">* </span>:</label>
+                            {{adminform.to_be_reimbursed}}
+                        </div>
+
+
+
+
+
+                        <button  value="Button" type="submit" class="btn btn-primary">Submit</button>
+
+                    </form>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'inventory/add_admin.js' %}"></script>
+
+<!-- 
+<script>
+    //TO VAlIDATE
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            var forms = document.getElementsByClassName('needs-validation2');
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', async function (event) {
+                    for (let i of form) {
+                        if (i.value == "") {
+                            $('#danger_msg2').slideDown({ opacity: "show" }, "slow");
+                            document.getElementById("danger_msg2").innerText = "PLEASE FILL " + i.name;
+                            // var element = await document.querySelector('#'+i.id);
+                            // console.log(element);
+                            // document.getElementById("danger_msg").className = await "alert alert-danger";
+                            // await element.scrollIntoView({block: "center", inline: "nearest" });
+                            $(window).scrollTop(0);
+                        }
+                    };
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script> -->
+
+
+
+
+

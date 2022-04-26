@@ -1,0 +1,37 @@
+
+
+
+
+
+    <!-- Code for Tabs for Add Item Pages-->
+    <!-- {% if content_template == 'inventory/add_item.html' and it == 0 %}
+    <div class="container" style="margin-left: 160px;">
+        <center style="margin-top: 5rem;">
+            <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="IT-tab" data-bs-toggle="tab" data-bs-target="#addItem" type="button"
+                        role="tab" aria-controls="addItem" aria-selected="true">IT</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button  class="nav-link" id="HARDWARE-tab" data-bs-toggle="tab" data-bs-target="#hardware" type="button"
+                        role="tab" aria-controls="hardware" aria-selected="false">HARDWARE</button>
+                </li>
+                {% for group in user.groups.all %}
+                {% if group.name == 'Admin' %}
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="ADMIN-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button"
+                        role="tab" aria-controls="admin" aria-selected="false">ADMIN</button>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="addItem" role="tabpanel" aria-labelledby="IT-tab">{% include content_template %}</div>
+                <div class="tab-pane fade" id="hardware" role="tabpanel" aria-labelledby="profile-tab">{% include hardware_template %}</div>
+                <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="contact-tab">{% include admin_template %}</div>
+            </div>
+        </center>
+    </div>
+    {% else %}
+    {% include content_template %}
+    {% endif %} -->

@@ -1,0 +1,84 @@
+ <title>Information-{{services.service_tag.service_tag}}</title>
+
+<div id="container" style="position: absolute;left:250px;top:70px;width:80%">
+<div class="row"style="margin-top:20px;">
+    <div class="col-sm-1" align="left">
+        <a class="btn btn-info" href="{% url 'dashboard' %}">Back<span class="fa fa-arrow-circle-left fa-sm aria-hidden='true'"></span></a>
+    </div>
+<div class="col-sm-10">
+<div class="card" style="margin-top:0px;, margin-right:px;">
+  <div class="card-header bg-dark text-white">
+      <p>
+          <a><h4>Service Request - {{ services.service_tag }}</h4></a>
+      </p>
+  </div>
+  <div class="card-body">
+      <a><h5> Details - </h5></a><br>
+    <table class="table table-stripped"  width="0%">
+            <tbody>
+                <tr>
+                    <th style="margin-right:1px;"><h4>iepl_id  :</h4></th>
+                    <td><h4>{{services.service_tag.iepl_id}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Service Tag :</h4></th>
+                    <td><h4>{{services.service_tag}}</h4></td>
+                </tr>
+                <tr>
+                   <th><h4>Item Type :</h4></th>
+                   <td><h4>{{services.service_tag.item_type}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Host name :</h4></th>
+                   <td><h4>{{services.service_tag.host_name}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Location :</h4></th>
+                   <td><h4>{{services.service_tag.location}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Manufacturer :</h4></th>
+                   <td><h4>{{services.service_tag.manufacturer}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Model No. :</h4></th>
+                   <td><h4>{{services.service_tag.model_no}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Request Type :</h4></th>
+                   <td><h4>{{msg}}</h4></td>
+               </tr>
+            </tbody>
+        </table>
+<button type="button" class="btn btn-lg btn-secondary"  onclick="clicked();">Accept</button>
+
+<button type="button" class="btn btn-lg  btn-secondary" onclick="clicked1();">Reject</button>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<br><br>
+
+<script type="text/javascript">
+    function clicked() {
+       if (confirm('Accept Request and Create Service ? ')) {
+           location.href='{% url 'accept1'  services.id%}'
+       } else {
+           return false;    
+       }
+    }
+    function clicked1() {
+       if (confirm('Reject Request ? ')) {
+           location.href='{% url 'reject1'  services.id%}'
+       } else {
+           return false;
+       }
+    }
+</script>
+
+
+

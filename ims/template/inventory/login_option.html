@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" i
+      ntegrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <title>Login options </title>
+<style>
+    .vl {
+  border-right: 6px solid green;
+  height: 500px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid" align="center" style= "position: ;
+margin-top:90px;padding:20px; margin-left:200px;margin-right:200px;"  >
+    <div align="center"> <h2 align="center"> <b>Login Options </b></h2></div>
+    <hr>
+    <br>
+    <div class="row" align="center">
+    {% if admin == 1 %}
+        <div class="col-sm-5" style="background-color:lavender; padding:20px; ">
+       {% else %}
+            <div class="col-sm-1" style="display:Hidden; padding:20px; margin-left:50px;" align="center" ></div>
+            <div class="col-sm-5" style="display:None;">
+                {% endif %}
+                <div class="card border-right-0">
+                    <h3 class="card-title"><b>Admin Section</b></h3>
+                    <p>You will be redirected to Admin section</p><br>
+                    <a class="btn btn-info btn-lg mt-3 " href="{%  url 'admin_home' %}">Admin Dashboard</a>
+                </div>
+
+        </div>
+    <div class="col-sm-2">  </div>
+    {% if superuser == 1%}
+        <div class="col-sm-5" style="background-color:lavender; padding:20px;">
+            {% else %}
+            <div class="col-sm-3" style="display:Hidden; padding:20px; margin-left:50px;" align="center" ></div>
+            <div class="col-sm-5" style="display:None;">
+                {% endif %}
+            <div class="card" >
+                <h3 class="card-title"><b>Superuser Section</b></h3>
+                <p>You will be redirected to Superuser section</p><br>
+                <a class="btn btn-info btn-lg mt-3" href="{% url 'superuser_home'  %}" > Superuser Dashboard </a><br>
+            </div>
+        </div>
+
+</div>
+            <br>
+            <hr>
+            <div class="row" align="center">
+                <div class="col-sm-4"></div>
+        <div class="col-sm-4" style="background-color:lavender; padding:20px;">
+
+            <div class="card" >
+                <h3 class="card-title"><b>User Section</b></h3>
+                <p>You will be redirected to User section</p><br>
+                <a class="btn btn-info btn-lg mt-3" href="{% url 'user_home'  %}" > User Dashboard </a><br>
+            </div>
+        </div>
+                <div class="col-sm-4"></div>
+            </div>
+        </div>
+</body>
+</html>

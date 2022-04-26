@@ -1,0 +1,198 @@
+
+<div id="container" style="position: absolute;left:250px;top:70px;width:80%">
+<div class="row"style="margin-top:20px;">
+    <div class="col-sm-1" align="left">
+        
+        <a class="btn btn-info" href="{{ request.META.HTTP_REFERER }}" style="padding:5px;"><span class="fa fa-arrow-circle-left fa-sm aria-hidden='true'"></span> Back</a> 
+        <!-- <a class="btn btn-info" href="{% url 'search_devices' %}" style="padding:5px;"><span class="fa fa-arrow-circle-left fa-sm aria-hidden='true'"></span> Back</a> -->
+    </div>
+<div class="col-sm-10">
+<div class="card">
+    <div class="card-header bg-dark text-white"><h4>Details </h4></div> <br>
+  <div class="card-body">
+
+      <table class="table table-stripped"  width="0%">
+        <tbody>
+                <tr>
+                    <th style="margin-right:1px;"><h4>Iepl id  :</h4></th>
+                    <td><h4>{{ids.iepl_id}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Item name :</h4></th>
+                    <td><h4>{{ids.item_name}}</h4></td>
+                </tr>
+                <tr>
+                   <th><h4>Description :</h4></th>
+                   <td><h4>{{ids.description}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>PO Number :</h4></th>
+                   <td><h4>PO-ifm-{{ids.po_year}}-{{ids.po_initials}}-{{ids.po_srno}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Project :</h4></th>
+                   <td><h4>{{ids.project.name}}</a> </h4></td>
+               </tr>
+               {% for group in user.groups.all %}
+               {% if group.name == 'Superuser'  %}
+                {% if ids.allocation_status == 'Allocated' %}
+                <tr>
+                    <th><h4>Allocated To :</h4></th>
+                    <td><h4>{{allocation_items.allot_to}}</h4></td>
+                </tr>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+                 <tr>
+                   <th><h4>Location :</h4></th>
+                   <td><h4>{{ids.location}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Employee :</h4></th>
+                   <td><h4>{{ids.employee}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Manufacturer :</h4></th>
+                   <td><h4>{{ids.manufacturer}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Manufacturer Part No :</h4></th>
+                   <td><h4>{{ids.manufacturer_part_no}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Comment :</h4></th>
+                   <td><h4>{{ids.comment}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>GIN IQAR No :</h4></th>
+                   <td><h4>ifm/20{{ids.gin_year}}/{{ids.gin_initials}}-{{ids.gin_srno}} </h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Manufacturer Part No :</h4></th>
+                   <td><h4>{{ids.manufacturer_part_no}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>To Be Reimbursed :</h4></th>
+                   <td><h4>{{ids.to_be_reimbursed}}</h4></td>
+               </tr>
+               <!-- FOR HARDWARE -->
+               {% if ids.customer_property %} 
+
+                <tr>
+                   <th><h4>Subsidiary :</h4></th>
+                   <td><h4>{{ids.subsidiary}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Customer Property :</h4></th>
+                   <td><h4>{{ids.customer_property}}</h4></td>
+               </tr>
+               <!-- END hardware -->
+
+               <!-- FOR ADMIN -->
+               {% elif ids.rent != None %}
+               <tr>
+                    <th><h4>Service Tag :</h4></th>
+                    <td><h4>{{ids.service_tag}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Item Type :</h4></th>
+                    <td><h4>{{ids.item_type}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Host Name :</h4></th>
+                    <td><h4>{{ids.host_name}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Local Admin :</h4></th>
+                    <td><h4>{{ids.local_admin}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Rent :</h4></th>
+                    <td><h4>{{ids.rent}} INR</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>CPU Type :</h4></th>
+                    <td><h4>{{ids.cpu_type}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>CPU Speed :</h4></th>
+                    <td><h4>{{ids.cpu_speed}} GHz</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Display Output :</h4></th>
+                    <td><h4>{{ids.display_output}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Moniter Make :</h4></th>
+                    <td><h4>{{ids.monitor_make}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Moniter Size :</h4></th>
+                    <td><h4>{{ids.monitor_size}} cm</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>RAM :</h4></th>
+                    <td><h4>{{ids.ram}} GB</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Storage :</h4></th>
+                    <td><h4>{{ids.storage}} GB</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>OS :</h4></th>
+                    <td><h4>{{ids.os}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Warrenty Expiry Date :</h4></th>
+                    <td><h4>{{ids.warranty_expiry_date}}</h4></td>
+                </tr>
+            {%else%}
+            {%endif%}                
+            </tbody>
+        </table>
+</div>
+</div>
+<br>
+     {% if user.group.name == 'Superuser'  %}
+    {% if ids.allocation_status == 'Free' %}
+    <button type="button" class="btn btn-secondary"  onclick="clicked();">Delete</button>
+    {% endif %}
+    {% endif %}
+<div>
+</div>
+</div>
+</div>
+
+
+<br>
+{% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %}"  role="alert">
+      {{message}}
+      </div>
+    {% endfor %}
+
+{% endif %}
+<script type="text/javascript">
+
+    function clicked() {
+       if (confirm('Do you want service of this Item')) {
+           location.href="{% url 'delete_device' ids.id %}";
+       } else {
+           return false;
+       }
+    }
+
+</script>
+
+
+<style>
+    th h4 {
+        font-weight: 550;
+    }
+    h4{
+        font-family: sans-serif;
+        font-size: 1rem;
+    }
+    
+</style>

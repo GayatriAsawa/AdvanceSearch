@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="/static/js/modernizr.min.js"></script>
+<script src="/static/js/jquery-3.5.1.min.js"></script>
+<script src="/static/js/jquery-ui.min.js"></script>
+
+<!--    <script src="http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>-->
+<script src="/static/js/infragistics.core.js"></script>
+<script src="/static/js/infragistics.lob.js"></script>
+    <script src="/static/js/data.js"></script>
+
+
+<!--    <script src="http://cdn-na.infragistics.com/igniteui/2021.2/latest/js/infragistics.core.js"></script>
+    <script src="http://cdn-na.infragistics.com/igniteui/2021.2/latest/js/infragistics.lob.js"></script>-->
+
+<!--    <script src="https://igniteui.com/js-data/employee-data-allDatatypes"></script>-->
+<link href="/static/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+<link href="/static/css/structure/infragistics.css" rel="stylesheet" />
+<!--<link href="http://cdn-na.infragistics.com/igniteui/2021.2/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+ <link href="http://cdn-na.infragistics.com/igniteui/2021.2/latest/css/structure/infragistics.css" rel="stylesheet" />-->
+</head>
+<style>
+ .split {
+       height: 100%;
+       position: fixed;
+       z-index1: 1;
+       top: 0;
+       overflow-x: hidden;
+       padding-top: 20px;
+ }
+    .left {
+        left: 0;
+        width: 70%;
+    }
+     .centered {
+        width: 70%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align:left;
+        }
+</style>
+<body>
+
+
+<div class="centered">
+<!--<input type=text id=textboxSearch>
+    <button id=search onclick="searchFunction()">Search</button><br />
+    Search History:
+<div style="border:1px solid green; width:400px; height:300px; overflow-y:scroll;"> <ul id="searchHistory"></ul>
+</div>-->
+  <table id="gridAdvancedFiltering">
+      <!---  <thead>
+         <tr>
+            <th class="S.No.">S.No.</th>
+            <th class="ieplid">iepl ID</th>
+            <th class="servicetag">Service Tag</th>
+            <th class="itemtype">Item Type</th>
+            <th class="Project">Project</th>
+            <th class="Manufacturer">Manufacturer</th>
+            <th class="modelno">Model No.</th>
+            <th class="Employee">Employee</th>
+                </tr>
+        </thead>
+
+        <tbody>
+
+        {% for item in items_list %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.iepl_id }}</td>
+            <td>{{ item.service_tag }}</td>
+            <td>{{ item.item_type.title }}</td>
+            <td>{{ item.project.name }}</td>
+            <td>{{ item.manufacturer }}</td>
+            <td>{{ item.model_no }}</td>
+            <td>{{ item.employee.username }}</td>
+          </tr>
+
+                {% endfor %}
+
+
+        </tbody>-->
+    </table>
+     <br />
+
+<script>
+$(function () {
+            createAdvancedFilteringGrid();
+        });
+
+        function createAdvancedFilteringGrid() {
+            $("#gridAdvancedFiltering").igGrid({
+                autoGenerateColumns: false,
+                columns: [
+                    { headerText: "IEPL ID", key: "iepl_id", dataType: "string", hidden: false },
+                    { headerText: "Service Tag", key: "service_tag", dataType: "string" },
+                    { headerText: "Item Type", key: "item_type", dataType: "string" },
+                    { headerText: "Project", key: "project", dataType: "string" },
+                    { headerText: "Manufacturer", key: "manufacturer", dataType: "string" },
+                    { headerText: "Model No.", key: "model_no", datatype: "string" },
+                    { headerText: "Employee", key: "employee", dataType: "string" },
+                ],
+                dataSource: items_list,
+                renderCheckboxes: true,
+                responseDataKey: "results",
+                features: [
+                    {
+                        name: "Filtering",
+                        type: "local",
+                        mode: "advanced",
+                        filterDialogContainment: "window"
+                    },
+                    {
+                        name: "Paging",
+                        type: "local",
+                        pageSize: 10
+                    }
+                ]
+            });
+        }
+    </script>
+    <script>
+    var recentSearches = []; // create an empty javascript array
+
+//this function is called using the search buttons "onclick"
+function searchFunction(data) {
+
+  recentSearches.push($('#gridAdvancedFiltering').val()); // This line puts the value from the text box in an array
+  $('#gridAdvancedFiltering').val(""); //  clear the text box after search
+  $('#searchHistory').text(""); //clear the search history window then repopulate with the new array
+
+  // the function below loops through the array and adds each item in the array
+  // to the span element within the Search history area
+
+  $.each(recentSearches, function(index, value) {
+    $('#searchHistory').append("<li class='historyItem'  onclick='addtotextbox(" + index + ")'>" + value + '</li>');
+  });
+}
+
+function addtotextbox(id) {
+  $('#textboxSearch').val(recentSearches[id]);
+}
+
+    </script>
+    <script>
+    var recentSearches = []; // create an empty javascript array
+
+//this function is called using the search buttons "onclick"
+function searchFunction(data) {
+
+  recentSearches.push($('#textboxSearch').val()); // This line puts the value from the text box in an array
+  $('#textboxSearch').val(""); //  clear the text box after search
+  $('#searchHistory').text(""); //clear the seach history window then repopulate with the new array
+
+  // the function below loops through the array and adds each item in the array
+  // to the span element within the Search history arear
+  $.each(recentSearches, function(index, value) {
+    $('#searchHistory').append("<li class='historyItem'  onclick='addtotextbox(" + index + ")'>" + value + '</li>');
+  });
+}
+
+function addtotextbox(id) {
+  $('#textboxSearch').val(recentSearches[id]);
+}
+</script>
+</body>
+</html>

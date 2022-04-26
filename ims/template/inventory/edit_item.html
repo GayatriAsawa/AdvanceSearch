@@ -1,0 +1,102 @@
+ 
+{% load static %}
+<title>Edit Device: {{ curr_id_iepl }}</title>
+<div class="container" align="left" style="position: absolute;left:200px;margin-top:0px;width:70%">
+    
+    <div class="row" >
+        <div class="col-md-3" align = "right" style="margin-top: 80px;">
+            <a class="btn btn-info" href="{% url 'edit_device' %}" style="padding:5px;"><span class="fa fa-arrow-circle-left fa-sm aria-hidden='true'"></span> Back</a>
+        </div>
+
+        <div class="col-md-9">
+            
+<div class="col-md-10 card" style="margin-top:10px; margin-top: 80px;">
+    <div class="card-header bg-dark text-white"><h4> Edit Device : {{ curr_id_iepl }} </h4></div> <br>
+    
+    <div class="card-body">
+        <div class="col-md-12" >
+           {% if messages %}
+            {% for message in messages %}
+                <div style="margin-top:20px" class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %}"
+                role="alert">
+            {{message}}
+        </div>
+            {% endfor %}
+            {% endif %}
+    
+       </div>
+       {% if validError != 'error' and validError != 'First' %}  
+         
+        {% else %}
+        <form class="needs-validation" action="{% url 'item_modification'  %}" method='post' id="modification_form" novalidate>
+            {% csrf_token %}
+            <div style="margin-top:5 px; display: none;" id="danger_msg" class="alert alert-danger" role="alert">
+            </div>
+            <!-- {{ device_form.as_p }} -->
+            <!-- !common Fields -->
+            <input type="hidden" name="curr_id" id="curr_id" value ="{{ curr_id }}" >
+            
+            {% if state == 'IQC' %}
+                {% include 'inventory/iqc.html' %}
+            {% endif %}
+            {% if state == 'Repair/Replace' %}
+                {% include 'inventory/repair.html' %}
+            {% endif %}
+            {% if state == 'Free' %}
+                {% include 'inventory/free.html' %}
+            {% endif %}
+            {% if state == 'Decommissioned' %}
+                {% include 'inventory/decommissioned.html' %}
+            {% endif %}
+            {% if state == 'Allocated' %}
+                {% include 'inventory/allocate.html' %}
+            {% endif %}
+            {% if state == 'Needs Maintainence' %}
+                {% include 'inventory/needs_maintainence.html' %}
+            {% endif %}
+            <button value="Button" type="submit" class="btn btn-primary" id="form_submit_button">Submit</button>
+        </form>
+        {% endif %}
+
+
+    </div>
+</div>
+    </div>
+        </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <!-- DJANGO SELECT2 CODE -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+<script src="{% static 'inventory/edit_item.js' %}"></script>
+
+  <!-- <script>
+      //TO VAlIDATE
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            var forms = document.getElementsByClassName('needs-validation');                  
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', async function (event) {
+                    for (let i of form ){
+                        if (i.value == "" ){
+                            $('#danger_msg').slideDown({ opacity: "show" }, "slow");
+                            document.getElementById("danger_msg").innerText = "PLEASE FILL " + i.name ;
+                            var element = await document.querySelector('#'+i.id);
+                            // console.log(element);
+                            // document.getElementById("danger_msg").className = await "alert alert-danger";
+                            await element.scrollIntoView({block: "center", inline: "nearest" });
+                            $(window).scrollTop(0);
+                        }
+                    };
+                    if (form.checkValidity() === false) {                                                                       
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script> -->

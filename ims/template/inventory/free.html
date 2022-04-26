@@ -1,0 +1,437 @@
+{% load static %}
+
+<tr>
+    <button type="submit" onclick="validateFreeForm()" class="btn btn-primary" style="margin-right: 20px;">Submit</button>
+    <button type="button" onclick="window.history.back();" class="btn btn-primary" >Cancel</button>
+</tr>
+<br><br>
+
+<!-- Allocation Status (Controller) -->
+<tr>
+    <th><label>Allocation Status : </label></th>
+    <td>
+        <select style="margin-bottom: 1rem;" id="controller" class="form-control" name="controller">
+            <option selected value="Free">Free</option>
+            <option value="Allocated">Allocated</option>
+            <option value="Decommissioned">Decommissioned</option>
+            <option value="Needs Maintainence">Needs Maintainence</option>
+        </select>
+    </td>
+</tr>
+<!-- Controller End -->
+
+<!-- Visible Fields After Controller-->
+
+<div id="location">
+    <p>Location <span style="color: red">* </span> :</p>
+    <div class="row">
+        <div class="dropdown col-xs-6" style="width : 30%">
+            <tr>
+                <div class="form-group" style="margin-left : 1.25rem">
+                    <th><label for="year">Floor Number <span style="color: red">* </span> :</label></th>
+                    <td>{{device_form.floor_number}}</td>
+                </div>
+            </tr>
+        </div>
+        <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+            <tr>
+                <div class="form-group">
+                    <th><label for="Inititials">Location Type <span style="color: red">* </span> :</label></th>
+                    <td>{{device_form.loc_type}}</td>
+                </div>
+            </tr>
+        </div>
+        <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+            <tr>
+                <div class="form-group">
+                    <th><label for="Serial Number">Number<span style="color: red">* </span> :</label></th>
+                    <td>{{device_form.loc_number}}</td>
+                </div>
+            </tr>
+        </div>
+    </div>
+</div>
+
+<div class="form-group" id="comment">
+    <label for="comment" id="comment_description">Comment :</label>
+    {{device_form.comment}}
+</div>
+
+<!-- Visible Fields After Controller End-->
+
+<!-- Hidden But May Be Required Fields -->
+<div id="free_to_allocated_fields">
+    <div class="dropdown" id="employee_name">
+        <tr>
+            <div class="form-group">
+                <th><label for="employee">User Name <span style="color: red">* </span>:</label></th>
+                <td>{{device_form.employee}}</td>
+            </div>
+        </tr>
+    </div>
+    <div id="project_details">
+        <div class="dropdown">
+            <tr>
+                <div class="form-group">
+                    <th><label for="project">Project NO. <span style="color: red">* </span>:</label></th>
+                    <td>{{device_form.project}}</td>
+                </div>
+            </tr>
+        </div>
+        <div class="dropdown">
+            <tr>
+                <div class="form-group">
+                    <th><label for="project">Project Name <span style="color: red">* </span>:</label></th>
+                    <td><input class="form-control" disabled type="text" id='projectName' value={{project_name}}></td>
+                </div>
+            </tr>
+        </div>
+    </div>
+</div>
+<!--End-->
+
+<hr style=" border-top: 2px dashed red;"/>
+
+<!-- Common Visible Fields -->
+<div class="dropdown" id="item_name">
+    <tr>
+        <div class="form-group">
+            <th><label for="item_name">Item Name <span style="color: red">* </span>:</label></th>
+            <td>{{device_form.item_name}}</td>
+        </div>
+    </tr>
+</div>
+
+<div class="dropdown" id="item_description">
+    <tr>
+        <div class="form-group">
+            <th><label for="description">Description :</label></th>
+            <td>{{device_form.description}}</td>
+        </div>
+    </tr>
+</div>
+
+<div id="po_number">
+    <p>PO Number<span style="color: red">* </span> :</p>
+    <div class="row">
+        <div class="dropdown col-xs-6" style="width : 30%">
+            <tr>
+                <div class="form-group" style="margin-left : 1.25rem">
+                    <th><label for="year">Year<span style="color: red">* </span> :</label></th>
+                    <td>{{device_form.po_year}}</td>
+                </div>
+            </tr>
+        </div>
+        <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+            <tr>
+                <div class="form-group">
+                    <th><label for="Inititials">Initials<span style="color: red">* </span> :</label></th>
+                    <td>{{device_form.po_initials}}</td>
+                </div>
+            </tr>
+        </div>
+        <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+            <tr>
+                <div class="form-group">
+                    <th><label for="Serial Number">Serial Number<span style="color: red">* </span> :</label></th>
+                    <td>{{device_form.po_srno}}</td>
+                </div>
+            </tr>
+        </div>
+    </div>
+</div>
+
+<div id="manufacturer">
+    <div class="form-group">
+        <label for="Manufacturer">Manufacturer Name <span style="color: red">* </span>:</label>
+        {{device_form.manufacturer}}
+    </div>
+    <div class="form-group">
+        <label for="manufacturer_part_no">Manufacturer Part NO. <span style="color: red">* </span>:</label>
+        {{device_form.manufacturer_part_no}}
+    </div>
+</div>
+
+<div class="form-group" id="to_be_reimbursed">
+    <label for="to_be_reimbursed">To be Reimbursed <span style="color: red">* </span>:</label>
+    {{device_form.to_be_reimbursed}}
+</div>
+<div id="gin">
+    <p>GIN and IQAR NO.<span style="color: red">* </span> :</p>
+    <div class="row">
+        <div class="dropdown col-xs-6" style="width : 30%">
+            <tr>
+                <div class="form-group" style="margin-left : 1.25rem">
+                    <th><label for="year">Year<span style="color: red">* </span> :</label></th>
+                    <td>{{device_form.gin_year}}</td>
+                </div>
+            </tr>
+        </div>
+        <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+            <tr>
+                <div class="form-group">
+                    <th><label for="Inititials">Initials<span style="color: red">* </span> :</label></th>
+                    <td>{{device_form.gin_initials}}</td>
+                </div>
+            </tr>
+        </div>
+        <div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+            <tr>
+                <div class="form-group">
+                    <th><label for="Serial Number">Serial Number<span style="color: red">* </span> :</label></th>
+                    <td>{{device_form.gin_srno}}</td>
+                </div>
+            </tr>
+        </div>
+    </div>
+</div>
+<!-- Common Visible Fields End-->
+
+<!-- Hardware Visible Fields-->
+{% if device_form.subsidiary.value %}
+<div class="dropdown" id="customer_property">
+    <tr>
+        <div class="form-group">
+            <th><label for="customer_property">Customer Property <span style="color: red">* </span>:</label></th>
+            <td>{{device_form.customer_property}}</td>
+        </div>
+    </tr>
+</div>
+
+<div class="dropdown" id="subsidiary">
+    <tr>
+        <div class="form-group">
+            <th><label for="subsidiary">Subsidiary <span style="color: red">* </span>:</label></th>
+            <td>{{device_form.subsidiary}}</td>
+        </div>
+    </tr>
+</div>
+{% endif %}
+<!-- Hardware Visible Fields End -->
+
+<!-- IT Visible Fields -->
+{% if device_form.rent.value != None %}
+<div class="dropdown" id="service_tag">
+    <tr>
+        <div class="form-group">
+            <th><label for="service_tag">Service Tag <span style="color: red">* </span>:</label></th>
+            <td>{{device_form.service_tag}}</td>
+        </div>
+    </tr>
+</div>
+
+<div class="dropdown" id="item_type">
+    <label for="device">Device Type <span style="color: red">* </span>:</label>
+    {{device_form.item_type}}
+</div><br>
+
+<div class="dropdown" id="rent">
+    <tr>
+        <div class="form-group">
+            <th><label for="Rent">Rent <span style="color: red">* </span>:</label></th>
+            <td>{{device_form.rent}}</td>
+        </div>
+    </tr>
+</div>
+
+<div class="dropdown" id="cpu_type">
+    <tr>
+        <div class="form-group">
+            <th><label for="cpu_type">CPU Type <span style="color: red">* </span>:</label></th>
+            <td>{{device_form.cpu_type}}</td>
+        </div>
+    </tr>
+</div>
+
+<div class="dropdown" id="cpu_speed">
+    <tr>
+        <div class="form-group">
+            <th><label for="cpu_speed">CPU Speed :</label></th>
+            <td>{{device_form.cpu_speed}}</td>
+        </div>
+    </tr>
+</div>
+
+<div style="display: flex;" id="display_output_text_id">
+    <p>Display Output<span style = "color: red">* </span> :</p>
+    <div >
+        <div style="margin-left: 2rem;">
+            {{device_form.display_output}}
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="dropdown">
+<tr><div class="form-group">
+    <select required name = "multiple_select_disp" class="select_field_class" multiple="multiple" name="option" id="option" style="width: 100%" value = {{mulSelectDisp}}>
+        <option value="">Enter the option</option>
+        <option value="1-HDMI">1-HDMI</option>
+        <option value="2-HDMI">2-HDMI</option>
+        <option value="3-HDMI">3-HDMI</option>
+        <option value="1-VGA">1-VGA</option>
+        <option value="2-VGA">2-VGA</option>
+        <option value="3-VGA">3-VGA</option>
+        <option value="4-VGA">4-VGA</option>
+        <option value="1-Display Port">1-Display Port</option>
+        <option value="2-Display Port">2-Display Port</option>
+        <option value="3-Display Port">3-Display Port</option>
+        <option value="4-Display Port">4-Display Port</option>
+
+    </select>
+</div></tr>
+</div>
+
+<div style="display: flex;" id="monitor_make_text_id">
+    <p>Monitor Make<span style = "color: red">* </span> :</p>
+    <div >
+        <div style="margin-left: 2rem;" class="form-group" id="monitor_make_text_id">
+            {{device_form.monitor_make}}
+        </div>
+    </div>
+    <br>
+</div>
+
+<div class="row">
+    <div class="dropdown col-xs-5">
+        <tr><div class="form-group" style="margin-left : 1.5rem">
+            <th><label for="year">Manufacturer<span style = "color: red">* </span> :</label></th>
+            <td>{{device_form.monitor_manufacturer}}</td>
+        </div></tr>
+    </div>
+
+    <div class="dropdown col-xs-7" style="margin-left : 0.5rem">
+            <th><label for="year">Port<span style = "color: red">* </span> :</label></th><br>
+            <select required name = "multiple_select" class="select_field_class" multiple="multiple" name="option" id="option" style="width: 280px;">
+            <option value="">Enter the option</option>
+            <option value="1-HDMI">1-HDMI</option>
+            <option value="2-HDMI">2-HDMI</option>
+            <option value="3-HDMI">3-HDMI</option>
+            <option value="1-VGA">1-VGA</option>
+            <option value="2-VGA">2-VGA</option>
+            <option value="3-VGA">3-VGA</option>
+            <option value="4-VGA">4-VGA</option>
+            <option value="1-Display Port">1-Display Port</option>
+            <option value="2-Display Port">2-Display Port</option>
+            <option value="3-Display Port">3-Display Port</option>
+            <option value="4-Display Port">4-Display Port</option>
+
+        </select>
+    </div>
+</div>
+
+<div class="dropdown" id="monitor_size">
+    <tr>
+        <div class="form-group">
+            <th><label for="monitor_size">Monitor Size :</label></th>
+            <td>{{device_form.monitor_size}}</td>
+        </div>
+    </tr>
+</div>
+
+<div class="dropdown" id="ram">
+    <tr>
+        <div class="form-group">
+            <th><label for="ram">RAM <span style="color: red">* </span>:</label></th>
+            <td>{{device_form.ram}}</td>
+        </div>
+    </tr>
+</div>
+
+
+<div style="display: flex;" id="storage_text_id">
+    <p>Storage<span style = "color: red">* </span> :</p>
+    <div >
+        <div style="margin-left: 2rem;">
+            {{device_form.storage}}
+        </div>
+    </div>
+    <br>
+</div>
+<br>
+<div> 
+    <button class="text-right btn btn-primary btn-sm" type="button" onclick="add()">Add</button>
+    <button style="margin-left: 1rem;" class="text-right btn btn-primary btn-sm" type="button" onclick="remove()">Remove</button>
+    <input type="hidden" name ="total_chq"  value="1" id="total_chq">
+</div>
+<br>
+
+<div class="row">
+<div class="dropdown col-xs-6" style="width : 30%">
+    <tr><div class="form-group" style="margin-left : 1.25rem;">
+        <th><label for="year">Storage Type<span style = "color: red">* </span> :</label></th>
+        <td>
+            <select style="margin-bottom: 1rem;" name='newtype_0' class="form-control" aria-label="Type">
+                <option selected>Storage Type</option>
+                <option value="H">Hard Disk Drive</option>
+                <option value="S">Solid State Drive</option>
+            </select>                            
+        </td>
+        <div id="new_chq1"></div>
+    </div></tr>
+</div>
+<div class="dropdown col-xs-6" style="width : 30%; margin-left: 1rem;">
+    <tr><div class="form-group">
+        <th><label for="memory">Memory<span style = "color: red">* </span> :</label></th>
+        <td>
+            <select style="margin-bottom: 1rem;" name='newmem_0' class="form-control" aria-label="Memory">
+                <option selected>Memory</option>
+                <option value="128">128</option>
+                <option value="256">256</option>
+                <option value="512">512</option>
+                <option value="1024">1024</option>
+            </select>
+        </td>
+        <div id="new_chq2"></div>
+    </div></tr>
+</div>
+</div>
+
+<div class="dropdown" id="os">
+    <tr>
+        <div class="form-group">
+            <th><label for="os">OS <span style="color: red">* </span>:</label></th>
+            <td>{{device_form.os}}</td>
+        </div>
+    </tr>
+</div>
+
+<div class="dropdown" id="warranty_expiry_date">
+    <tr>
+        <div class="form-group">
+            <th><label for="warranty_expiry_date">Warranty expiry date <span style="color: red">* </span>:</label></th>
+            <td>{{device_form.warranty_expiry_date}}</td>
+        </div>
+    </tr>
+</div>
+<div id="hostName">
+    <div class="dropdown">
+        <label for="host_name">Host Name <span style="color: red">* </span>:</label>
+        {{device_form.host_name}}
+    </div><br>
+</div>
+<div id="localAdmin">
+    <div class="dropdown">
+        <label for="local_admin">Local Admin :</label>
+        {{device_form.local_admin}}
+    </div><br>
+</div>
+{% endif %}
+<!-- IT Visible Fields End -->
+
+
+
+<!--Hidden Fields-->
+<div id="hidden_fields">
+    <div class="dropdown" id="allocation_status">
+        <tr>
+            <div class="form-group">
+                <th><label for="allocation_status">Allocation Status <span style="color: red">* </span>:</label></th>
+                <td>{{device_form.allocation_status}}</td>
+            </div>
+        </tr>
+    </div>
+</div>
+<!--  Hidden End  -->
+
+<script src="{% static 'inventory/free.js' %}"></script>

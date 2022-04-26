@@ -1,0 +1,115 @@
+<title>LDAP Accounts</title>
+<style>
+    .alert.info {background-color: #2196F3;}
+</style>
+
+<div id="container" style="position: relative;left:260px;top:100px;width:80%">
+{% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %}"  role="alert">
+      {{message}}
+      </div>
+    {% endfor %}
+{% endif %}
+
+    <div class="row">
+
+        <div class="col-sm-6">
+            <div class="card" style="overflow: auto;">
+                <div class="card-header bg-dark text-white"><h4>Allowed Accounts</h4></div>
+            <div class="card-body">
+                <form method="post" action="{% url 'disallow' %}">
+                    <div class="row">
+            <div class="col-sm-9">
+                <div class="alert alert-info">
+                  <strong>Select the account/s to mark as Disallowed</strong>
+                </div>
+            </div>
+            <div class="col-sm-3" align="right"><button type="submit" class="btn btn-secondary"
+                                                        onclick="if (confirm('Sure ?? Disallow account ??'))
+                    commentDelete(1); return false">Disallow</button></div>
+        </div>
+                    <br><br>
+                    {%csrf_token%}
+                    {%for li in allow%}
+                    <input type="checkbox" name="name" value="{{li}}"/>
+                    <div style="position: relative;right:-30px;top:-33px; display: block; max-width: 500px;">
+                            <table >
+                    <tr class="list-group-item list-group-item-action">
+                        <a>
+                        <td style="column-width:;"> <span>User - {{ li.get_full_name|default:li.username }}, </span> </td>
+                        <td> <span>Username - {{li.username}}</span> </td>
+                        </a>
+                    </tr>
+                </table>
+                        </div>
+                    {%endfor%}
+                    </form>
+            </div>
+            </div>
+    </div>
+
+        <div class="col-sm-6" >
+            {% if dis %}
+<div class="card" style="overflow: auto;">
+    <div class="card-header bg-dark text-white"><h4>Disallowed Accounts</h4></div>
+            <div class="card-body">
+    <form method="post" action="{% url 'allow' %}">
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="alert alert-info">
+                  <strong>Select the account/s to mark as Allowed</strong>
+                </div>
+            </div>
+            <div class="col-sm-3" align="right"><button style="left: 0px;" type="submit" class="btn btn-secondary"
+                                                        onclick="if (confirm('Sure ?? Allow account ??'))
+    commentDelete(1); return false">Allow</button></div>
+        </div><br><br>
+        {% csrf_token %}
+        {%for li in dis%}
+            <input type="checkbox" name="name" value="{{li}}"/>
+            <div style="position: relative;right:-30px;top:-33px; display: block; max-width: 500px;">
+                <table >
+                    <tr class="list-group-item list-group-item-action">
+                        <a>
+                        <td style="column-width:;"> <span>User - {{ li.get_full_name|default:li.username }}, </span> </td>
+                        <td> <span>Username - {{li.username}}</span> </td>
+                        </a>
+                    </tr>
+                </table>
+                <strong>
+            </strong>
+            </div>
+{% endfor %}
+
+    </form>
+    </div>
+{% endif %}
+        </div>
+
+        </div>
+    </div>
+
+
+</div>
+<script type="text/javascript">
+/*
+    function clicked() {
+       if (confirm('Sure?? Disallow Account ')) {
+           
+           //location.href='{{request.get_host}}{% url 'disallow' %}'
+       } else {
+           return false;
+       }
+    }
+    function clicked1() {
+       if (confirm('Sure?? Allow Account')) {
+           //location.href='{{request.get_host}}{% url 'allow' %}'
+       } else {
+           return false;
+       }
+    }
+*/
+</script>
+
+

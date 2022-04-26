@@ -1,0 +1,60 @@
+{% extends 'inventory/base.html' %}
+
+{% block head %}
+    <title> Superuser Dashboard </title>
+{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+<div class="row">
+<div id="col-md-10" style="position: relative;left:250px;margin-top:30px;width:80%">
+  <div class="col-md-12">
+
+    {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %}"  role="alert">
+      {{message}}
+      </div>
+    {% endfor %}
+
+  </div>
+</div>
+  </div>
+
+{% endif %}
+
+<div class="row">
+  <div class="col-md-10" style="position: relative;left:250px;margin-top:30px;width:80%">
+<div class="card" style="margin-top:10px;, margin-right:20px;">
+    <div class="card-header bg-dark text-white">All Requests</div> <br>
+    <div class="card-body">
+      {% for obj in reports%}
+      <strong><a  href="{% url 'information' obj.id %}" class="list-group-item list-group-item-action" >
+        {{ forloop.counter }}.
+        <span>Model No. - {{obj.allocation.service_tag.model_no}}</span>, Service Tag - {{obj.allocation.service_tag}}
+      </a></strong>
+      {%endfor%}
+      </div>
+</div>
+    </div>
+</div>
+
+<div class="row">
+  <div class="col-md-10" style="position: relative;left:250px;margin-top:30px;width:80%">
+  <div class="card " style="margin-top:10px;">
+    <div class="card-header bg-dark text-white"><h3>Service Requests</h3></div>
+    <div class="card-body">
+      {% for ser in services%}
+      <strong><a href="{% url 'create_reject_service_view' ser.id %}" class="list-group-item list-group-item-action" >
+        {{ forloop.counter }}.
+       <span> Model No. - {{ser.service_tag.model_no }}</span>, Service Tag - {{ser.service_tag.service_tag}}</a></strong>
+      {%endfor%}
+      </div>
+</div>
+    </div>
+</div>
+
+
+    {% include content_template %}
+
+{% endblock %}

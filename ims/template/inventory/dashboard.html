@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,"style="position: fixed; overflow:auto">
+    <link rel="icon" type="image/png" href = "{% static 'media/logo-ifm.png' %}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous">
+    </script>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js">
+    </script>
+
+   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous">
+    </script>
+
+
+   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+
+
+     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" href="dist/bootstrap4-card-tables.min.css">
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+
+    </script>
+      
+    <style>
+        .b{
+        font-size: 20px;
+        padding: 10px;
+        color:white;
+        }
+        .active_tab{
+        color:black;
+        background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NavBar Start -->
+    <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark" style="list-style:none;">
+        <li><p>
+            <img src="{% static 'media/logo-ifm.svg' %}" height="42" width="auto" alt="ifm logo" style="vertical-align:Bottom">
+            <a class="navbar-brand text-white" style="padding:0px 10px;">Inventory Management System<span><small style="padding:5px;"><i>Version 1.0</i>
+               {{ ims_config.InventoryManagementSystem_version }}</small></div></span>
+            </a>
+        </li>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="display:inline-block; text-align:right">
+            <ul class="nav fixed navbar-nav navbar-right"  style="display: inline-block !important; width: 100%;">
+                {% if user.is_authenticated %}
+                    <li class="b"><span style="margin-right:10px">Hello, {{user.username}}</span>
+                        <a href="{% url 'logout'%}" class="btn btn-outline-light btn-sm">Logout
+                            <span class="fa fa-sign-out fa-lg fa-fw aria-hidden='true'"></span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+<!-- NavBar END -->
+
+
+<!-- Bootstrap row -->
+<div class="container">
+    <div class="row" id="body-row">
+        <div class="col-md-2">
+            <!-- Sidebar -->
+            <!-- <div id="sidebar-container" class="sidebar-expanded fixed d-none d-md-block sidenav-overlay" > -->
+            <div id="sidebar-container">
+                <!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu' -->
+                <!-- Bootstrap List Group -->
+                <ul class="list-group">
+                    <!-- Separator with title -->
+                    <li style="margin-top:15px;" class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+                        <small>MAIN MENU</small>
+                    </li>
+                    <li>
+                        <a id="home" href="{% url 'dashboard' %}" class="bg-dark list-group-item list-group-item-action
+                            {% if request.path == '/home' %} active active_tab {% endif %}">
+                                <div class="d-flex w-100 justify-content-start align-items-center">
+                                    <span class="fa fa-home fa-lg fa-fw aria-hidden=true mr-3"></span>
+                                    <span class="menu-collapsed">Home</span>
+                                </div>
+                        </a>
+                    </li>
+                    
+                    {% for group in user.groups.all %}
+                        {% if group.name == 'Superuser'  %}
+                            <li>
+                                <a href="{% url 'ldaps' %}" class="bg-dark list-group-item list-group-item-action
+                                            {% if request.path == '/ldap/' %} active {% endif %}">
+                                    <div class="d-flex w-100 justify-content-start align-items-center">
+                                        <span class="fa fa-users fa-lg fa-fw aria-hidden=true mr-3"></span>
+                                        <span class="menu-collapsed"> LDAPS</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <p class="d-flex w-100 justify-content-start align-items-center" style="margin-bottom: 0">
+                                <a class="bg-dark list-group-item list-group-item-action text-white  {% if it == 0 or it %} active {% endif %}" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" >
+                                    <span class="fa fa-plus fa-lg fa-fw aria-hidden=true mr-3"></span>Add Items
+                                </a>
+                            </p>
+                            <div class="collapse" id="collapseExample">
+                                <ul  class=" list-unstyled fw-normal small align-items-center">
+                                    <li ><a  style=" display:block; line-height:2.8; width:100%; padding-left: 20px;" href="{% url 'add_device' 1 %}" class="d-inline-flex align-items-center rounded">IT</a></li>
+                                    <li><a style=" display:block; line-height:2.8; width:100%; padding-left: 20px;" href="{% url 'add_device' 2 %}" class="d-inline-flex align-items-center rounded">HARDWARE</a></li>
+                                    <li><a style=" display:block; line-height:2.8; width:100%; padding-left: 20px;" href="{% url 'add_device' 3 %}" class="d-inline-flex align-items-center rounded">ADMINISTRATION</a></li>
+                                    <!-- {% for group in user.groups.all %}
+                                        {% if group.name == 'Admin' %}
+                                            <li><a style=" display:block; line-height:2.8; width:100%; padding-left: 20px;" href="{% url 'add_device' 3 %}" class="d-inline-flex align-items-center rounded">ADMIN</a></li>
+                                        {% endif %}
+                                    {% endfor %} -->
+                                </ul>
+                            </div>
+                            <li>
+                                <a href="{% url 'edit_device' %}" class="bg-dark list-group-item list-group-item-action
+                                            {% if request.path == '/modify_item' %}active {% endif %}">
+                                    <div class="d-flex w-100 justify-content-start align-items-center">
+                                        <span class="fa fa-search fa-lg fa-fw mr-3"></span>
+                                        <!-- <span class="fa fa-pencil-square-o fa-lg fa-fw mr-3"></span> -->
+                                        <span class="menu-collapsed"> Search Items</span>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for group in user.groups.all %}
+                        {% if group.name == 'User'  %}
+                            <li>
+                                <a id="search" href="{% url 'search_devices' %}" class="bg-dark list-group-item list-group-item-action
+                                    {% if request.path == "/search_devices" %}active active_tab {% endif %}"">
+                                        <div class="d-flex w-100 justify-content-start align-items-center">
+                                            <span class="fa fa-search fa-lg fa-fw mr-3"></span>
+                                            <span class="menu-collapsed"> Search Items</span>
+                                        </div>
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+ <li>
+            <a id="search" href="{% url 'advance_search' %}" class="bg-dark list-group-item list-group-item-action
+            {% if request.path == "/advance_search" %}active active_tab {% endif %}"">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                      <span class="fa fa-search fa-lg fa-fw mr-3"></span>
+                      <span class="menu-collapsed"> Advance Search</span>
+                </div>
+            </a>
+            </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1>OK</h1>
+{% include content_template %}
+       
+<!--</div>-->
+<script>
+    @media (min-width: 768px)
+    {
+    .navbar-toggle {
+        display: none;
+    }
+
+    .navbar-header button {
+        display: block;
+    }
+    }
+</script>
+
+<style>
+    #body-row {
+        margin-left:0;
+        margin-right:0;
+    }
+    #sidebar-container {
+        height: 100%;
+        width: 180px;
+        z-index: 1;
+        top: 66px;
+        left: 0;
+        background-color: #333;
+        padding-right: 0px;
+        position: fixed;
+        overflow-x: hidden;
+    }
+    .sidebar-expanded {
+        width: 230px;
+        padding-right: 10px;
+    }
+    .sidebar-collapsed {
+        width: 60px;
+        padding-right: 10px;
+    }
+    #sidenav-overlay { z-index: 1; }
+    #sidebar-container .list-group a {
+        height: 50px;
+        color: white;
+    }
+
+    #sidebar-container .list-group .sidebar-submenu a {
+        height: 45px;
+        padding-left: 30px;
+    }
+    .sidebar-submenu {
+        font-size: 0.9rem;
+    }
+
+    .sidebar-separator-title {
+        background-color: #333;
+        height: 35px;
+    }
+    .sidebar-separator {
+        background-color: #333;
+        height: 25px;
+    }
+    .logo-separator {
+        background-color: #333;
+        height: 60px;
+    }
+
+    #sidebar-container .list-group .list-group-item[aria-expanded="false"] .submenu-icon::after {
+    content: " \f0d7";
+    font-family: FontAwesome;
+    display: inline;
+    text-align: right;
+    padding-left: 10px;
+    }
+    #sidebar-container .list-group .list-group-item[aria-expanded="true"] .submenu-icon::after {
+    content: " \f0da";
+    font-family: FontAwesome;
+    display: inline;
+    text-align: right;
+    padding-left: 10px;
+    }
+    @media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+    }
+
+    .error
+    {
+    border:1px solid red;
+    }
+</style>
+<!--
+    <link href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    -->
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+<script>
+
+    $(document).ready(function() {
+
+        xx = $('#tabular_view thead th').length
+
+        target_cols = new Array();
+        for(i = 1; i < xx; i++){
+            target_cols.push(i);
+        }
+
+        $("#tabular_view").DataTable({
+            columnDefs: [
+               {
+                orderable: false,
+                targets: 0,
+               }
+            ],
+            "drawCallback": function(settings){
+
+                $("tr.odd td, tr.even td").each(function(){
+                    if($.trim($(this).text()) == "") $(this).text("None");
+                });
+            }
+        });
+
+        $("#tabular_view").on( 'order.dt',  function(e){
+            e.preventDefault();
+
+            var i = 1;
+            $(this).find("tbody tr td:first-child").each(function(){
+                $(this).text(i);
+                i++;
+            });
+
+            $("tr.odd td, tr.even td").each(function(){
+                if($.trim($(this).text()) == "") $(this).text("None");
+            });
+        });
+
+
+        $("table.dataTable, #tabular_view_wrapper").css("width",($( document ).width() - 350)+"px");
+        $('#tabular_view').DataTable(reverse())
+
+    } );
+    function getProject(){
+        var skillsSelect = document.getElementById("id_project");
+        var selectedText = skillsSelect.options[skillsSelect.selectedIndex].text;
+        // alert(selectedText)
+
+    $.ajax(
+    {
+        type:"GET",
+        url: "/getProjectData",
+        data:{
+                 project_id: selectedText
+        },
+        success: function(data) 
+        {
+            // $( '#like'+ catid ).remove();
+            // $( '#message' ).text(data);
+            $('#projectName').val(data)
+        }
+     })
+
+    }
+</script>
+
+<script>
+
+// Hide submenus
+$('#body-row .collapse').collapse('hide');
+
+// Collapse/Expand icon
+$('#collapse-icon').addClass('fa-angle-double-left');
+
+// Collapse click
+$('[data-toggle=sidebar-colapse]').click(function() {
+    SidebarCollapse();
+});
+
+function SidebarCollapse () {
+    $('.menu-collapsed').toggleClass('d-none');
+    $('.sidebar-submenu').toggleClass('d-none');
+    $('.submenu-icon').toggleClass('d-none');
+    $('#sidebar-container').toggleClass('sidebar-expanded sidebar-collapsed');
+
+    // Treating d-flex/d-none on separators with title
+    var SeparatorTitle = $('.sidebar-separator-title');
+    if ( SeparatorTitle.hasClass('d-flex') ) {
+        SeparatorTitle.removeClass('d-flex');
+    } else {
+        SeparatorTitle.addClass('d-flex');
+    }
+
+    $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
+}
+</script>
+
+<script>
+
+    $(document).ready(function() {
+
+        xx = $('#tabular_view2 thead th').length
+
+        target_cols = new Array();
+        for(i = 1; i < xx; i++){
+            target_cols.push(i);
+        }
+
+        $("#tabular_view2").DataTable({
+            columnDefs: [
+               {
+                orderable: false,
+                targets: 0,
+               }
+            ],
+            "drawCallback": function(settings){
+
+                $("tr.odd td, tr.even td").each(function(){
+                    if($.trim($(this).text()) == "") $(this).text("None");
+                });
+            }
+        });
+
+        $("#tabular_view2").on( 'order.dt',  function(e){
+            e.preventDefault();
+
+            var i = 1;
+            $(this).find("tbody tr td:first-child").each(function(){
+                $(this).text(i);
+                i++;
+            });
+
+            $("tr.odd td, tr.even td").each(function(){
+                if($.trim($(this).text()) == "") $(this).text("None");
+            });
+        });
+
+
+        $("table.dataTable, #tabular_view_2wrapper").css("width",($( document ).width() - 350)+"px");
+        $('#tabular_view2').DataTable(reverse())
+
+    } );
+    function getProject(){
+        var skillsSelect = document.getElementById("id_project");
+        var selectedText = skillsSelect.options[skillsSelect.selectedIndex].text;
+        // alert(selectedText)
+
+    $.ajax(
+    {
+        type:"GET",
+        url: "/getProjectData",
+        data:{
+                 project_id: selectedText
+        },
+        success: function(data) 
+        {
+            // $( '#like'+ catid ).remove();
+            // $( '#message' ).text(data);
+            $('#projectName').val(data)
+        }
+     })
+
+    }
+    </script>
+
+
+  </body>
+</html>
+

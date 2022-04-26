@@ -1,0 +1,125 @@
+<title>Superuser Dashboard</title>
+
+{% if messages %}
+<div class="row">
+<div id="col-md-10" style="position: relative;left:250px;margin-top:90px;width:80%">
+  <div class="col-md-12">
+    {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %}"  role="alert">
+      {{message}}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+  </div>
+
+{% endif %}
+
+<div class="row">
+  <div class="col-md-10" style="position: relative;left:250px;margin-top:80px;width:80%">
+    <div class="card" style="margin-top:10px;, margin-right:20px;">
+      <div class="card-header bg-dark text-white"><h4>Requests pending for my approval</h4></div>
+      <div class="card-body">
+        {% if reports.count > 0 %}
+          {% for obj in reports %}
+            <strong><a  href="{% url 'device_information' obj.id %}" class="list-group-item list-group-item-action" >
+            {{ forloop.counter }}.
+            <!-- <span>Model No. - {{obj.allocation.service_tag.model_no}}</span>, Service Tag - {{obj.allocation.service_tag}} -->
+            <span>Item Name - {{obj.allocation.service_tag.item_name}}</span> | Service Tag - {{obj.allocation.service_tag}}
+            </a></strong>
+          {%endfor%}
+        {% else %}
+          <div class="alert alert-info">No Requests for now !!</a></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="row">
+  <div class="col-md-10" style="position: relative;left:250px;margin-top:30px;width:80%">
+    <div class="card " style="margin-top:10px;">
+      <div class="card-header bg-dark text-white"><h4>Service Requests</h4></div>
+      <div class="card-body">
+        {% if services.count > 0 %}
+          {% for ser in services%}
+            <strong><a href="{% url 'create_reject_service_view' ser.id %}" class="list-group-item list-group-item-action" >
+              {{ forloop.counter }}.
+              <span> Model No. - {{ser.service_tag.model_no }}</span>, Service Tag - {{ser.service_tag.service_tag}}</a>
+            </strong>
+          {% endfor %}
+        {% else %}
+          <div class="alert alert-info">No Service Requests for now !!</a></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="row">
+  <div class="col-md-10" style="position: relative;left:250px;margin-top:50px;width:80%">
+    <div class="card" style="margin-top:10px;, margin-right:20px;">
+      <div class="card-header bg-dark text-white">
+        <h4>Items Assigned</h4>
+      </div><br>
+      <div class="card-body overflow-auto">
+        {% if my_items|length > 0 %}
+          <table id="tabular_view2" style=" max-width: none;overflow: hidden ;table-layout: auto;" class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">S.No</th>
+                <th scope="col">iepl ID</th>
+                <th scope="col">Service Tag</th>
+                <th scope="col">Item Type</th>
+                <th scope="col">Status</th>
+                <th scope="col">Host Name</th>
+                <th scope="col">Location</th>
+                <th scope="col">Manufacturer</th>
+                <th scope="col">Item Name</th>
+                <!-- <th scope="col" style=".absorbing-column {width: 100%;}">Date</th> -->
+              </tr>
+            </thead>
+          
+            <tbody>
+        
+                
+                  <!-- {% for item in items_list %}
+                    {% if item.employee.username == user.username %}
+                      <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'information' item.id %}">{{ item.iepl_id }}</a></td>
+                        <td>{{ item.service_tag }}</td>
+                        <td>{{ item.item_type.title }}</td>
+                        <td>{{ item.allocation_status }}</td>
+                        <td>{{ item.host_name }}</td>
+                        <td>{{ item.location }}</td>
+                        <td>{{ item.manufacturer }}</td>
+                        <td>{{ item.item_name}}</td>
+                      </tr>
+                    {% endif %}
+                  {% endfor %} -->
+
+                  {% for item in my_items %}
+                      <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'information' item.id %}">{{ item.service_tag.iepl_id }}</a></td>
+                        <td>{{ item.service_tag.service_tag }}</td>
+                        <td>{{ item.service_tag.item_type.title }}</td>
+                        <td>{{ item.service_tag.allocation_status }}</td>
+                        <td>{{ item.service_tag.host_name }}</td>
+                        <td>{{ item.service_tag.location }}</td>
+                        <td>{{ item.service_tag.manufacturer }}</td>
+                        <td>{{ item.service_tag.item_name}}</td>
+                      </tr>
+                  {% endfor %}
+
+            </tbody>
+          </table>
+        {% else %}
+          <div class="alert alert-info"><p><b>No Assigned Items for you !!</b></p> </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

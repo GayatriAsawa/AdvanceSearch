@@ -1,0 +1,51 @@
+<title>User Dashboard</title>
+
+<div class="row">
+  <div class="col-md-10" style="position: relative;left:250px;margin-top:50px;width:80%">
+    <div class="card" style="margin-top:10px;, margin-right:20px;">
+      <div class="card-header bg-dark text-white">
+        <h4>Items Assigned</h4>
+      </div><br>
+      <div class="card-body overflow-auto">
+        {% if my_items|length > 0 %}
+          <table id="tabular_view2" style=" max-width: none;overflow: hidden ;table-layout: auto;" class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">S.No</th>
+                <th scope="col">iepl ID</th>
+                <th scope="col">Service Tag</th>
+                <th scope="col">Item Type</th>
+                <th scope="col">Status</th>
+                <th scope="col">Host Name</th>
+                <th scope="col">Location</th>
+                <th scope="col">Manufacturer</th>
+                <th scope="col">Model No</th>
+              </tr>
+            </thead>
+          
+            <tbody>
+        
+              {% for item in my_items %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{% url 'information' item.id %}">{{ item.service_tag.iepl_id }}</a></td>
+                <td>{{ item.service_tag.service_tag }}</td>
+                <td>{{ item.service_tag.item_type.title }}</td>
+                <td>{{ item.service_tag.allocation_status }}</td>
+                <td>{{ item.service_tag.host_name }}</td>
+                <td>{{ item.service_tag.location }}</td>
+                <td>{{ item.service_tag.manufacturer }}</td>
+                <td>{{ item.service_tag.item_name}}</td>
+              </tr>
+          {% endfor %}
+                
+
+            </tbody>
+          </table>
+        {% else %}
+          <div class="alert alert-info"><p><b>No Assigned Items for you !!</b></p> </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,199 @@
+
+<!-- <title>Information-{{allocation_items.service_tag.Model_no}}</title> -->
+<title>Information - {{itemName}}</title>
+
+{% if messages %}
+{% for message in messages %}
+  <div style="margin-left:220px;margin-top: 30px;"
+       class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %}"  role="alert">
+  {{message}}
+  </div>
+{% endfor %}
+{% endif %}
+
+<div id="container" style="position: absolute;left:250px;top:120px;width:80%">
+<div class="row"style="margin-top:20px;">
+    <div class="col-sm-1" align="left">
+        <a class="btn btn-info" href="{% url 'dashboard' %}" style="padding:5px;"><span class="fa fa-arrow-circle-left fa-sm aria-hidden='true'"></span> Back</a>
+    </div>
+<div class="col-sm-10">
+<div class="card">
+    <div class="row">
+        <div class="col-sm-8">
+            <!-- <div class="card-header bg-dark text-white"><h4> Details - {{allocation_items.service_tag.model_no}} </h4></div> -->
+            <div class="card-header bg-dark text-white"><h4> Details - {{itemName}} </h4></div>
+    <div class="card-body">
+    <table class="table table-stripped"  width="0%">
+        <a><h5>Details - </h5></a>
+            <tbody>
+                <tr>
+                    <th style="margin-right:10px;"><h4>Item Name  :</h4></th>
+                    <td><h4>{{itemName}}</h4></td>
+                </tr>
+                <tr>
+                    <th style="margin-right:10px;"><h4>iepl Id  :</h4></th>
+                    <td><h4>{{allocation_items.service_tag.iepl_id}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Item Category  :</h4></th>
+                    <td><h4>{{itemDomain}}</h4></td>
+                </tr>
+                <tr>
+                    <th><h4>Item Description  :</h4></th>
+                    <td><h4>{{allocation_items.service_tag.description}}</h4></td>
+                </tr>
+                {% if itemDomain == "IT" %}
+                <tr>
+                    <th><h4>Service Tag :</h4></th>
+                    <td><h4>{{allocation_items.service_tag.service_tag}}</h4></td>
+                </tr>
+                <tr>
+                   <th><h4>Item Type :</h4></th>
+                   <td><h4>{{allocation_items.service_tag.item_type}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Host name :</h4></th>
+                   <td><h4>{{allocation_items.service_tag.host_name}}</h4></td>
+               </tr>
+               {% endif %}
+                <tr>
+                   <th><h4>Location :</h4></th>
+                   <td><h4>{{allocation_items.service_tag.location}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Manufacturer :</h4></th>
+                   <td><h4>{{allocation_items.service_tag.manufacturer}}</h4></td>
+               </tr>
+                <!-- <tr>
+                   <th><h4>Model No. :</h4></th>
+                   <td><h4>{{allocation_items.service_tag.model_no}}</h4></td>
+               </tr>
+                <tr>
+                   <th><h4>Comments :</h4></th>
+                   <td><h4>{{allocation_items.comment}}</h4></td>
+               </tr> -->
+            </tbody>
+    </table></div>
+
+</div>
+        <div class="col-sm-4">
+            <div class="card-header bg-dark text-white"><h3 align="center"> Actions </h3></div>
+    <div class="card-body bg-dark text-white">
+    <table class="table table-stripped"  width="0%">
+            <tbody align="center-left">
+            <tr>
+                <th></th>
+                <td><button type="button" class="btn btn-primary" style="margin-top:10px; margin-right:px;
+    margin-right:px;" onclick="clicked2();"
+    ><h>  Free Item  </h></button></td>
+            </tr>
+                <tr>
+                    <th ></th>
+                    <td><button type="button" class="btn btn-primary" style="margin-top:10px; margin-right:0px;" onclick="clicked();">
+        <h>Incorrect Item</h></button></h4></td>
+                </tr>
+            <tr>
+                <th></th>
+                <td><button type="button" class="btn btn-primary" style="margin-top:10px; margin-right:0px;" onclick="clicked1();">
+        <h>Return to store</h></button></td>
+            </tr>
+
+                <!-- <tr>
+                <th></th>
+                <td><button type="button" class="btn btn-primary" style="margin-top:10px; margin-right:0px;" onclick="clicked3();">
+        <h>Create Service</h></button></td>
+            </tr> -->
+
+            </tbody>
+
+    <div align="center-left" style="margin-top:10px;">
+        <form id='form' method="POST" action="{% url 'transfer' allocation_items.id %}">
+        {% csrf_token %}
+
+            <a><h5 align="left">Transfer To - </h5><br>
+          <select class="form-control" name="mySelect" id="mySelect">
+          {%for user in users %}
+                <option value="{{user.id}}" >{{user.username}}</option>
+            {%endfor%}
+          </select></a><button type='submit' style="margin-top:20px;margin-left:50px;"  class="btn btn-primary"><h> Transfer</h></button>
+        </form><br>
+    </div><br>
+
+    </table>
+</div></div>
+    </div>
+
+</div>
+</div>
+
+
+
+<br><br>
+
+
+
+
+
+<script type="text/javascript">
+    function clicked() {
+       if (confirm('Do you want to Report as Incorrect Item ?')) {
+           location.href='{% url 'incorrect' allocation_items.id%}'
+       } else {
+           return false;
+       }
+    }
+    function clicked1() {
+       if (confirm('Do you want to return to store ?')) {
+           location.href='{% url 'return_to_store' allocation_items.id %}'
+       } else {
+           return false;
+       }
+    }
+    function clicked2() {
+       if (confirm('Do you want to free the item ?')) {
+           location.href='{% url 'free_item' allocation_items.id %}'
+       } else {
+           return false;
+       }
+    }
+
+    function clicked3() {
+        if (confirm('Do you want to Create Service ?')) {
+            location.href='{% url 'create_service' allocation_items.service_tag.service_tag %}'
+        } else {
+            return false;
+        }
+     }
+
+   $(document).on('submit','#form',function(e) {
+        var e = document.getElementById("mySelect")
+        var strUser = e.options[e.selectedIndex].text;
+        var txt='Do you want to transfer the item to '+strUser + ' ?';
+       if (confirm(txt))
+       {
+        $.ajax({
+
+            url: '{% url 'transfer' allocation_items.id%}',
+            type:'POST',
+            data: {
+               name:$('#mySelect').val(),
+               csrfmiddlewaretoken:{{ csrf_token }},
+                action: 'post'
+            },
+            dataType: 'json',
+            success: function () {
+                alert("Done!!!");
+
+            }
+        });
+       }
+       else
+       {
+         return false;
+       }
+    });
+
+</script>
+</div>
+</div>
+
